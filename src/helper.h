@@ -2,7 +2,7 @@
 #define HELPER_H
 
 int helper_get_int();
-void helper_greet();
+char *helper_get_string();
 void helper_prompt(char *message);
 
 #endif

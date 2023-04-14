@@ -12,5 +12,6 @@ typedef enum
 } User_Type;
 
 User_Type user_type_get();
+void user_greet();
 
 #endif

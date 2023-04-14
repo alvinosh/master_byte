@@ -17,12 +17,18 @@ int helper_get_int()
     return (int)num;
 }
 
-void helper_greet()
+char *helper_get_string()
 {
-    printf("Welcome To The Master Byte Flight Rservations System. \n");
-    printf("Please Enter Your User Type. \n");
-    printf("    1. Administrator \n");
-    printf("    2. Customer \n");
+    char line[1024];
+    if (fgets(line, sizeof line, stdin) != NULL)
+    {
+        line[strlen(line) - 1] = '\0';
+        return line;
+    }
+    else
+    {
+        return -1;
+    }
 }
 
 void helper_prompt(char *message)

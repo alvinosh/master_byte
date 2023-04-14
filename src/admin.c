@@ -10,6 +10,36 @@ static const char *const admin_option_desc[Admin_Option_Count] = {
     "Quit",
 };
 
+void admin_add_flight()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_remove_flight()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_print_flights()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_add_airport()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_remove_airport()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_print_airports()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
 Admin_Option admin_option_get()
 {
     helper_prompt("");
@@ -43,12 +73,15 @@ void admin_option_help()
 void admin_authenticate()
 {
     helper_prompt("Password");
-    char line[256];
+    char line[256] = helper_get_string();
 
-    if (fgets(line, sizeof line, stdin) != NULL)
+    if (line == -1)
     {
-        line[strlen(line) - 1] = '\0';
-
+        printf("Invalid Password. Please Try Again \n");
+        admin_authenticate();
+    }
+    else
+    {
         if (strcmp(line, "admin") == 0)
         {
             printf("Welcome Admin \n");
@@ -58,11 +91,6 @@ void admin_authenticate()
             printf("Invalid Password. Please Try Again \n");
             admin_authenticate();
         }
-    }
-    else
-    {
-        printf("Invalid Password. Please Try Again \n");
-        admin_authenticate();
     }
 }
 
@@ -100,34 +128,4 @@ void admin_run()
             break;
         }
     }
-}
-
-void admin_add_flight()
-{
-    printf("UNIMPLEMENTED \n");
-}
-
-void admin_remove_flight()
-{
-    printf("UNIMPLEMENTED \n");
-}
-
-void admin_print_flights()
-{
-    printf("UNIMPLEMENTED \n");
-}
-
-void admin_add_airport()
-{
-    printf("UNIMPLEMENTED \n");
-}
-
-void admin_remove_airport()
-{
-    printf("UNIMPLEMENTED \n");
-}
-
-void admin_print_airports()
-{
-    printf("UNIMPLEMENTED \n");
 }

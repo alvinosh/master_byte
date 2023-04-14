@@ -7,7 +7,7 @@
 int main(void)
 {
 
-    helper_greet();
+    user_greet();
     User_Type user_type = user_type_get();
     if (user_type == Administrator)
     {
