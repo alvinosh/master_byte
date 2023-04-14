@@ -1,5 +1,11 @@
 # Master Byte - Flight Reservation System
 
+## Usage
+
+```console
+$ gcc ./src/**.c -I./src/ -o ./build/main.exe && ./build/main.exe
+```
+
 ## Features
 
 [ ] - "User Interface: The Flight Reservation System should have a user-friendly interface that allows users to search for flights, select seats, and book tickets.
@@ -21,3 +27,7 @@
 [ ] - Security: The software should have appropriate security measures, such as user authentication and authorization, to prevent unauthorized access to sensitive information.
 
 [ ] - Code Quality: The software should be well-organized and documented with comments for easy maintenance and understanding. It should also follow good coding practices such as modular programming and error checking."
+
+```
+
+```
