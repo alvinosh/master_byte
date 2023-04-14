@@ -8,49 +8,7 @@ static const char *const customer_option_desc[Customer_Option_Count] = {
 
 void customer_search_flights()
 {
-    helper_prompt("From");
-    char from[256];
-    if (fgets(from, sizeof from, stdin) != NULL)
-    {
-        from[strlen(from) - 1] = '\0';
-    }
-    helper_prompt("To");
-    char to[256];
-    if (fgets(to, sizeof to, stdin) != NULL)
-    {
-        to[strlen(to) - 1] = '\0';
-    }
-    helper_prompt("Date");
-    char date[256];
-    if (fgets(date, sizeof date, stdin) != NULL)
-    {
-        date[strlen(date) - 1] = '\0';
-    }
-    helper_prompt("Time");
-    char time[256];
-    if (fgets(time, sizeof time, stdin) != NULL)
-    {
-        time[strlen(time) - 1] = '\0';
-    }
-    helper_prompt("Seats");
-    char seats[256];
-    if (fgets(seats, sizeof seats, stdin) != NULL)
-    {
-        seats[strlen(seats) - 1] = '\0';
-    }
-    helper_prompt("Class");
-    char class[256];
-    if (fgets(class, sizeof class, stdin) != NULL)
-    {
-        class[strlen(class) - 1] = '\0';
-    }
-    printf("Searching Flights \n");
-    printf("From: %s \n", from);
-    printf("To: %s \n", to);
-    printf("Date: %s \n", date);
-    printf("Time: %s \n", time);
-    printf("Seats: %s \n", seats);
-    printf("Class: %s \n", class);
+    printf("UNIMPLEMENTED \n");
 }
 
 void customer_book_flight()
