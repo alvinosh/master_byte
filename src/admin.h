@@ -6,15 +6,14 @@
 
 typedef enum
 {
-    Add_Flight = 0,
-    Remove_Flight,
-    Add_Customer,
-    Remove_Customer,
-    Add_Reservation,
-    Remove_Reservation,
-    Print_Flights,
-    Print_Customers,
-    Print_Reservations,
+    Admin_Add_Flight = 0,
+    Admin_Remove_Flight,
+    Admin_Print_Flights,
+
+    Admin_Add_Airport,
+    Admin_Remove_Airport,
+    Admin_Print_Airports,
+
     Admin_Quit,
     Admin_Option_Count
 } Admin_Option;

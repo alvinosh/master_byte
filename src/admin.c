@@ -1,5 +1,15 @@
 #include "admin.h"
 
+static const char *const admin_option_desc[Admin_Option_Count] = {
+    "Add Flight",
+    "Remove Flight",
+    "Print Flights",
+    "Add Airport",
+    "Remove Airport",
+    "Print Airports",
+    "Quit",
+};
+
 Admin_Option admin_option_get()
 {
     helper_prompt("");
@@ -9,29 +19,12 @@ Admin_Option admin_option_get()
         printf("Invalid Option. Please Try Again \n");
         return admin_option_get();
     }
-    switch (c)
+    if (c - 1 >= 0 && c - 1 < Admin_Option_Count)
     {
-    case 1:
-        return Add_Flight;
-    case 2:
-        return Remove_Flight;
-    case 3:
-        return Add_Customer;
-    case 4:
-        return Remove_Customer;
-    case 5:
-        return Add_Reservation;
-    case 6:
-        return Remove_Reservation;
-    case 7:
-        return Print_Flights;
-    case 8:
-        return Print_Customers;
-    case 9:
-        return Print_Reservations;
-    case 10:
-        return Admin_Quit;
-    default:
+        return c - 1;
+    }
+    else
+    {
         printf("Invalid Option. Please Try Again \n");
         return admin_option_get();
     }
@@ -39,17 +32,12 @@ Admin_Option admin_option_get()
 
 void admin_option_help()
 {
+
     printf("Please Enter Your Option. \n");
-    printf("    1. Add Flight \n");
-    printf("    2. Remove Flight \n");
-    printf("    3. Add Customer \n");
-    printf("    4. Remove Customer \n");
-    printf("    5. Add Reservation \n");
-    printf("    6. Remove Reservation \n");
-    printf("    7. Print Flights \n");
-    printf("    8. Print Customers \n");
-    printf("    9. Print Reservations \n");
-    printf("    10. Quit \n");
+    for (int i = 0; i < Admin_Option_Count; i++)
+    {
+        printf("    %d. %s \n", i + 1, admin_option_desc[i]);
+    }
 }
 
 void admin_authenticate()
@@ -87,32 +75,23 @@ void admin_run()
         Admin_Option option = admin_option_get();
         switch (option)
         {
-        case Add_Flight:
-            printf("Add Flight \n");
+        case Admin_Add_Flight:
+            admin_add_flight();
             break;
-        case Remove_Flight:
-            printf("Remove Flight \n");
+        case Admin_Remove_Flight:
+            admin_remove_flight();
             break;
-        case Add_Customer:
-            printf("Add Customer \n");
+        case Admin_Print_Flights:
+            admin_print_flights();
             break;
-        case Remove_Customer:
-            printf("Remove Customer \n");
+        case Admin_Add_Airport:
+            admin_add_airport();
             break;
-        case Add_Reservation:
-            printf("Add Reservation \n");
+        case Admin_Remove_Airport:
+            admin_remove_airport();
             break;
-        case Remove_Reservation:
-            printf("Remove Reservation \n");
-            break;
-        case Print_Flights:
-            printf("Print Flights \n");
-            break;
-        case Print_Customers:
-            printf("Print Customers \n");
-            break;
-        case Print_Reservations:
-            printf("Print Reservations \n");
+        case Admin_Print_Airports:
+            admin_print_airports();
             break;
         case Admin_Quit:
             printf("Quit \n");
@@ -121,4 +100,34 @@ void admin_run()
             break;
         }
     }
+}
+
+void admin_add_flight()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_remove_flight()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_print_flights()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_add_airport()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_remove_airport()
+{
+    printf("UNIMPLEMENTED \n");
+}
+
+void admin_print_airports()
+{
+    printf("UNIMPLEMENTED \n");
 }
