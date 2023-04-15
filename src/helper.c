@@ -17,17 +17,15 @@ int helper_get_int()
     return (int)num;
 }
 
-char *helper_get_string()
+void helper_get_string(char *line)
 {
-    char line[1024];
     if (fgets(line, sizeof line, stdin) != NULL)
     {
         line[strlen(line) - 1] = '\0';
-        return line;
     }
     else
     {
-        return -1;
+        line = NULL;
     }
 }
 

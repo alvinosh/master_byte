@@ -73,9 +73,10 @@ void admin_option_help()
 void admin_authenticate()
 {
     helper_prompt("Password");
-    char line[256] = helper_get_string();
+    char line[256];
+    helper_get_string(line);
 
-    if (line == -1)
+    if (line == NULL)
     {
         printf("Invalid Password. Please Try Again \n");
         admin_authenticate();
@@ -98,7 +99,8 @@ void admin_run()
 {
     admin_authenticate();
     admin_option_help();
-    while (1)
+    int loop = 1;
+    while (loop)
     {
         Admin_Option option = admin_option_get();
         switch (option)
@@ -122,7 +124,7 @@ void admin_run()
             admin_print_airports();
             break;
         case Admin_Quit:
-            printf("Quit \n");
+            loop = 0;
             break;
         case Admin_Option_Count:
             break;

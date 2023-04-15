@@ -9,13 +9,12 @@ User_Type user_type_get()
         printf("Invalid Option. Please Try Again \n");
         return user_type_get();
     }
-    switch (c)
+    if (c - 1 >= 0 && c - 1 < User_Type_Count)
     {
-    case 1:
-        return Administrator;
-    case 2:
-        return Customer;
-    default:
+        return c - 1;
+    }
+    else
+    {
         printf("Invalid Option. Please Try Again \n");
         return user_type_get();
     }

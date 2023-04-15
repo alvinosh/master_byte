@@ -48,7 +48,8 @@ void customer_option_help()
 void customer_run()
 {
     customer_option_help();
-    while (1)
+    int loop = 1;
+    while (loop)
     {
         Customer_Option option = customer_option_get();
         switch (option)
@@ -60,8 +61,8 @@ void customer_run()
             customer_book_flight();
             break;
         case Customer_Quit:
-            printf("Quit \n");
-            return;
+            loop = 0;
+            break;
         case Customer_Option_Count:
             break;
         }
