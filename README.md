@@ -3,7 +3,7 @@
 ## Usage
 
 ```console
-$ gcc ./src/**.c -I./src/ -o ./build/main.exe && ./build/main.exe
+$ gcc ./src/**.c -I./src/ -o ./build/main && ./build/main
 ```
 
 ## Features
