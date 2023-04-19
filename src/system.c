@@ -1,7 +1,7 @@
 #include "system.h"
 #include "helper.h"
 
-static const char *const SEQUENCE_FILE_NAME = "sequence.txt";
+static const char *const SEQUENCE_FILE_NAME = "./sequence.txt";
 
 static char SYSTEM_FLIGHT = 'F';
 static char SYSTEM_AIRPORT = 'A';
@@ -20,7 +20,7 @@ void system_init(System *system, char *file_name)
 
 void system_seq_init()
 {
-    FILE *file = fopen(SEQUENCE_FILE_NAME, "w"); // Open the file in write mode
+    FILE *file = fopen(SEQUENCE_FILE_NAME, "w+"); // Open the file in write mode
     if (file == NULL)
     {
         fprintf(stderr, "Error opening file.\n");
