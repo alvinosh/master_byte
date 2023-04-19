@@ -1,1 +1,0 @@
-gcc -Wall -Wextra -pedantic -std=c99 ./src/**.c -I./src/ -o ./build/main  && cd build && ./main
