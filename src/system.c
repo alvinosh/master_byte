@@ -37,6 +37,14 @@ int system_seq_current()
     {
         system_seq_init();
         fprintf(stderr, "Sequence File Regenerated.\n");
+        file = fopen(SEQUENCE_FILE_NAME, "r");
+
+        if (file == NULL)
+        {
+            fprintf(stderr, "Error opening file.\n");
+            exit(1);
+        };
+
         // exit(1);
     }
     int num;
