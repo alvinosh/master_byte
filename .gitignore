@@ -1,1 +1,5 @@
 .vscode/**
+*.txt
+**.exe
+**.stackdump
+*.sh
