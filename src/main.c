@@ -12,6 +12,16 @@
 
 static const char *const DB_NAME = "db.txt";
 
+void add_dummy_flight(System *system)
+{
+    Flight flight = {0};
+    strcpy(flight.date, "12/32/23");
+    strcpy(flight.from_airport, "LHR");
+    strcpy(flight.to_airport, "LAX");
+    strcpy(flight.price, "10300");
+    system_flight_add(system, &flight);
+}
+
 int main(void)
 {
 
@@ -31,14 +41,4 @@ int main(void)
     {
         customer_run(&system);
     }
-}
-
-void add_dummy_flight(System *system)
-{
-    Flight flight = {0};
-    strcpy(flight.date, "12/32/23");
-    strcpy(flight.from_airport, "LHR");
-    strcpy(flight.to_airport, "LAX");
-    strcpy(flight.price, "1000");
-    system_flight_add(&system, &flight);
 }
