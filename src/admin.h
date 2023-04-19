@@ -2,7 +2,14 @@
 #define ADMIN_H
 
 #include "helper.h"
-#include "pch.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <limits.h>
+#include <string.h>
+
+#include "system.h"
 
 typedef enum
 {
@@ -20,6 +27,6 @@ typedef enum
 
 Admin_Option admin_option_get();
 void admin_option_help();
-void admin_run();
+void admin_run(System *system);
 
 #endif

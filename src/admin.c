@@ -10,33 +10,41 @@ static const char *const admin_option_desc[Admin_Option_Count] = {
     "Quit",
 };
 
-void admin_add_flight()
+void admin_add_flight(System *system)
 {
+    UNUSED(system);
     printf("UNIMPLEMENTED \n");
 }
 
-void admin_remove_flight()
+void admin_remove_flight(System *system)
 {
+    UNUSED(system);
     printf("UNIMPLEMENTED \n");
 }
 
-void admin_print_flights()
+void admin_print_flights(System *system)
 {
+    Flight flights[1024];
+    int flight_count = 0;
+    system_flight_get_all(system, flights, &flight_count);
+    system_flight_print_all(flights, &flight_count);
+}
+
+void admin_add_airport(System *system)
+{
+    UNUSED(system);
     printf("UNIMPLEMENTED \n");
 }
 
-void admin_add_airport()
+void admin_remove_airport(System *system)
 {
+    UNUSED(system);
     printf("UNIMPLEMENTED \n");
 }
 
-void admin_remove_airport()
+void admin_print_airports(System *system)
 {
-    printf("UNIMPLEMENTED \n");
-}
-
-void admin_print_airports()
-{
+    UNUSED(system);
     printf("UNIMPLEMENTED \n");
 }
 
@@ -95,7 +103,7 @@ void admin_authenticate()
     }
 }
 
-void admin_run()
+void admin_run(System *system)
 {
     admin_authenticate();
     admin_option_help();
@@ -106,22 +114,22 @@ void admin_run()
         switch (option)
         {
         case Admin_Add_Flight:
-            admin_add_flight();
+            admin_add_flight(system);
             break;
         case Admin_Remove_Flight:
-            admin_remove_flight();
+            admin_remove_flight(system);
             break;
         case Admin_Print_Flights:
-            admin_print_flights();
+            admin_print_flights(system);
             break;
         case Admin_Add_Airport:
-            admin_add_airport();
+            admin_add_airport(system);
             break;
         case Admin_Remove_Airport:
-            admin_remove_airport();
+            admin_remove_airport(system);
             break;
         case Admin_Print_Airports:
-            admin_print_airports();
+            admin_print_airports(system);
             break;
         case Admin_Quit:
             loop = 0;

@@ -2,7 +2,11 @@
 #define CUSTOMER_H
 
 #include "helper.h"
-#include "pch.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <limits.h>
+#include <string.h>
 
 typedef enum
 {
