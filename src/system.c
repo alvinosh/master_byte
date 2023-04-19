@@ -20,7 +20,7 @@ void system_init(System *system, char *file_name)
 
 void system_seq_init()
 {
-    FILE *file = fopen(SEQUENCE_FILE_NAME, "w+"); // Open the file in write mode
+    FILE *file = fopen(SEQUENCE_FILE_NAME, "w"); // Open the file in write mode
     if (file == NULL)
     {
         fprintf(stderr, "Error opening file.\n");
@@ -35,8 +35,9 @@ int system_seq_current()
     FILE *file = fopen(SEQUENCE_FILE_NAME, "r"); // Open the file in read mode
     if (file == NULL)
     {
-        fprintf(stderr, "Error opening file.\n");
-        exit(1);
+        system_seq_init();
+        fprintf(stderr, "Sequence File Regenerated.\n");
+        // exit(1);
     }
     int num;
     fscanf(file, "%d", &num); // Read the number from the file
