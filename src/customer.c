@@ -3,6 +3,7 @@
 static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
     "Book Flight",
+    "Book Flight By From Airport"
     "Quit",
 };
 
@@ -15,6 +16,12 @@ void customer_book_flight()
 {
     printf("UNIMPLEMENTED \n");
 }
+
+void customer_get_flight_by_from_airport(System *system){
+    printf("UNIMPLEMENTED \n");
+   
+}
+
 
 Customer_Option customer_option_get()
 {
@@ -45,7 +52,7 @@ void customer_option_help()
     }
 }
 
-void customer_run()
+void customer_run(System *system)
 {
     customer_option_help();
     int loop = 1;
@@ -59,6 +66,9 @@ void customer_run()
             break;
         case Customer_Book_Flight:
             customer_book_flight();
+            break;
+        case Customer_Flights_By_From_Airport:
+            customer_get_flight_by_from_airport(system);
             break;
         case Customer_Quit:
             loop = 0;
