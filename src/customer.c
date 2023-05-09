@@ -3,6 +3,7 @@
 static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
     "Book Flight",
+    "Book Flight By From Airport",
     "Quit",
 };
 
@@ -15,6 +16,23 @@ void customer_book_flight()
 {
     printf("UNIMPLEMENTED \n");
 }
+
+void customer_get_flight_by_from_airport(System *system){
+    helper_prompt("Enter The Airport You Want Flights Froms");
+    char from_air[256];
+    helper_get_string(from_air);
+
+    Flight flights[1024];
+    int flight_count = 0;
+    system_flight_get_all(system, flights, &flight_count);
+
+    for(int i = 0; i < flight_count; i++) {
+        if (strcmp(from_air, flights[i].from_airport) == 0) {
+            printf("%s ", flights[i].price);
+        }
+    }
+}
+
 
 Customer_Option customer_option_get()
 {
@@ -45,7 +63,7 @@ void customer_option_help()
     }
 }
 
-void customer_run()
+void customer_run(System *system)
 {
     customer_option_help();
     int loop = 1;
@@ -59,6 +77,9 @@ void customer_run()
             break;
         case Customer_Book_Flight:
             customer_book_flight();
+            break;
+        case Customer_Flights_By_From_Airport:
+            customer_get_flight_by_from_airport(system);
             break;
         case Customer_Quit:
             loop = 0;

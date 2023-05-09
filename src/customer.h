@@ -2,6 +2,7 @@
 #define CUSTOMER_H
 
 #include "helper.h"
+#include "system.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -12,12 +13,13 @@ typedef enum
 {
     Customer_Search_Flights = 0,
     Customer_Book_Flight,
+    Customer_Flights_By_From_Airport,
     Customer_Quit,
     Customer_Option_Count
 } Customer_Option;
 
 Customer_Option customer_option_get();
 void customer_option_help();
-void customer_run();
+void customer_run(System *system);
 
 #endif
