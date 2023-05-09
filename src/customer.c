@@ -17,35 +17,43 @@ void customer_book_flight()
     printf("UNIMPLEMENTED \n");
 }
 
-void customer_get_flight_by_from_airport(System *system){
-    helper_prompt("Enter The Airport You Want Flights Froms");
-    char from_air[256];
-    helper_get_string(from_air);
+void customer_get_flight_by_from_airport(System *system)
+{
+    helper_prompt("Enter The Airport You Want Flights From");
+    char *from_air = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(from_air) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
 
     Flight flights[1024];
     int flight_count = 0;
     system_flight_get_all(system, flights, &flight_count);
 
-    for(int i = 0; i < flight_count; i++) {
-        if (strcmp(from_air, flights[i].from_airport) == 0) {
-            printf("%s ", flights[i].price);
+    for (int i = 0; i < flight_count; i++)
+    {
+        if (strcmp(from_air, flights[i].from_airport) == 0)
+        {
+            // printf("%s ", flights[i].price);
+            system_flight_print_one(&flights[i]);
         }
     }
 }
 
-
 Customer_Option customer_option_get()
 {
     helper_prompt("");
-    char c = helper_get_int();
-    if (c == -1)
+    int *c = malloc(sizeof(int));
+    if (helper_get_int(c) != 0)
     {
         printf("Invalid Option. Please Try Again \n");
         return customer_option_get();
     }
-    if (c - 1 >= 0 && c - 1 < Customer_Option_Count)
+
+    if (*c - 1 >= 0 && *c - 1 < Customer_Option_Count)
     {
-        return c - 1;
+        return *c - 1;
     }
     else
     {

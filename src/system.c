@@ -183,17 +183,22 @@ void system_flight_edit(System *system, int flight_id, Flight *flight)
     fclose(file);                                                                                                                                             // Close the file
 }
 
+void system_flight_print_one(Flight *flight)
+{
+    printf("Flight ID: %d\n", flight->entity.id);
+    printf("    From Airport: %s\n", flight->from_airport);
+    printf("    To Airport: %s\n", flight->to_airport);
+    printf("    Price: %s\n", flight->price);
+    printf("    Date: %s\n", flight->date);
+}
+
 void system_flight_print_all(Flight *flight, int *flight_count)
 {
     for (int i = 0; i < *flight_count; i++)
     {
         if (!flight[i].entity.is_deleted)
         {
-            printf("Flight ID: %d\n", flight[i].entity.id);
-            printf("    From Airport: %s\n", flight[i].from_airport);
-            printf("    To Airport: %s\n", flight[i].to_airport);
-            printf("    Price: %s\n", flight[i].price);
-            printf("    Date: %s\n", flight[i].date);
+            system_flight_print_one(&flight[i]);
         }
     }
 }

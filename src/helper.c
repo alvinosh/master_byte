@@ -1,35 +1,58 @@
 #include "helper.h"
 
-void helper_get_int(int *num)
+int helper_get_int(int *num)
 {
-    char buffer[1024];
-    helper_get_string(buffer);
-    if (buffer == NULL)
+    int a = scanf("%d", num);
+    if (a == 0)
     {
-        num = NULL;
-        return;
+        fprintf(stderr, "Error: failed to read input\n");
+        return -1;
     }
-
-    char *endptr;
-    errno = 0;
-    int n = strtol(buffer, &endptr, 10);
-    if (errno != 0 || endptr == buffer || *endptr != '\n' || n <= 0 || n > INT_MAX)
+    else if (a == EOF)
     {
-        num = NULL;
-        return;
+        fprintf(stderr, "Error: failed to read input\n");
+        return -1;
     }
-
-    *num = (int)num;
-}
-
-void helper_get_string(char *line)
-{
-    if (fgets(line, sizeof line, stdin) != NULL)
+    else if (a == 1)
     {
-        line[strlen(line) - 1] = '\0';
+        return 0;
     }
     else
     {
-        line = NULL;
+        fprintf(stderr, "Error: failed to read input\n");
+        return -1;
     }
+
+    return 0;
+}
+
+int helper_get_string(char *line)
+{
+
+    int a = scanf("%s", line);
+    // error handling
+    if (a == 0)
+    {
+        fprintf(stderr, "Error: failed to read input\n");
+        return -1;
+    }
+    else if (a == EOF)
+    {
+        fprintf(stderr, "Error: failed to read input\n");
+        return -1;
+    }
+    else if (a == 1)
+    {
+        return 0;
+    }
+    else
+    {
+        fprintf(stderr, "Error: failed to read input\n");
+        return -1;
+    }
+}
+
+void helper_prompt(char *message)
+{
+    printf("%s > ", message);
 }

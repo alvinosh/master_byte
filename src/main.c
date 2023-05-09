@@ -10,7 +10,7 @@
 #include <limits.h>
 #include <string.h>
 
-static const char *const DB_NAME = "db.txt";
+static const char *const DB_NAME = "./db.txt";
 
 void add_dummy_flight(System *system)
 {
@@ -29,10 +29,11 @@ int main(void)
     system_init(&system, (char *)DB_NAME);
 
     // for testing purposes
-    // add_dummy_flight(&system);
+    add_dummy_flight(&system);
 
     user_greet();
     User_Type user_type = user_type_get();
+
     if (user_type == Administrator)
     {
         admin_run(&system);

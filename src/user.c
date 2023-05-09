@@ -3,15 +3,15 @@
 User_Type user_type_get()
 {
     helper_prompt("");
-    int c = helper_get_int();
-    if (c == -1)
+    int *c = malloc(sizeof(int));
+    if (helper_get_int(c) != 0)
     {
         printf("Invalid Option. Please Try Again \n");
         return user_type_get();
     }
-    if (c - 1 >= 0 && c - 1 < User_Type_Count)
+    if (*c - 1 >= 0 && *c - 1 < User_Type_Count)
     {
-        return c - 1;
+        return *c - 1;
     }
     else
     {

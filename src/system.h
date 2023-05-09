@@ -51,6 +51,7 @@ void system_flight_get_all(System *system, Flight *flights, int *flight_count);
 void system_flight_add(System *system, Flight *flight);
 void system_flight_remove(System *system, int flight_id);
 void system_flight_edit(System *system, int flight_id, Flight *flight);
+void system_flight_print_one(Flight *flight);
 void system_flight_print_all(Flight *flight, int *flight_count);
 
 void system_airport_get_all(System *system, Airport *airports, int *airport_count);

@@ -51,15 +51,17 @@ void admin_print_airports(System *system)
 Admin_Option admin_option_get()
 {
     helper_prompt("");
-    char c = helper_get_int();
-    if (c == -1)
+    int *c = malloc(sizeof(int));
+
+    if (helper_get_int(c) != 0)
     {
         printf("Invalid Option. Please Try Again \n");
         return admin_option_get();
     }
-    if (c - 1 >= 0 && c - 1 < Admin_Option_Count)
+
+    if (*c - 1 >= 0 && *c - 1 < Admin_Option_Count)
     {
-        return c - 1;
+        return *c - 1;
     }
     else
     {
@@ -76,15 +78,15 @@ void admin_option_help()
     {
         printf("    %d. %s \n", i + 1, admin_option_desc[i]);
     }
+    printf("\n");
 }
 
 void admin_authenticate()
 {
     helper_prompt("Password");
     char line[256];
-    helper_get_string(line);
 
-    if (line == NULL)
+    if (helper_get_string(line) != 0)
     {
         printf("Invalid Password. Please Try Again \n");
         admin_authenticate();
