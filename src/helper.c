@@ -1,20 +1,25 @@
 #include "helper.h"
 
-int helper_get_int()
+void helper_get_int(int *num)
 {
     char buffer[1024];
-    if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+    helper_get_string(buffer);
+    if (buffer == NULL)
     {
-        return -1;
+        num = NULL;
+        return;
     }
+
     char *endptr;
     errno = 0;
-    long num = strtol(buffer, &endptr, 10);
-    if (errno != 0 || endptr == buffer || *endptr != '\n' || num <= 0 || num > INT_MAX)
+    int n = strtol(buffer, &endptr, 10);
+    if (errno != 0 || endptr == buffer || *endptr != '\n' || n <= 0 || n > INT_MAX)
     {
-        return -1;
+        num = NULL;
+        return;
     }
-    return (int)num;
+
+    *num = (int)num;
 }
 
 void helper_get_string(char *line)
@@ -27,9 +32,4 @@ void helper_get_string(char *line)
     {
         line = NULL;
     }
-}
-
-void helper_prompt(char *message)
-{
-    printf("%s > ", message);
 }

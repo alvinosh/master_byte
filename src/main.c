@@ -29,7 +29,7 @@ int main(void)
     system_init(&system, (char *)DB_NAME);
 
     // for testing purposes
-    add_dummy_flight(&system);
+    // add_dummy_flight(&system);
 
     user_greet();
     User_Type user_type = user_type_get();

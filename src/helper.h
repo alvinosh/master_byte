@@ -9,7 +9,7 @@
 
 #define UNUSED(x) (void)(x)
 
-int helper_get_int();
+void helper_get_int(int *num);
 void helper_get_string(char *line);
 void helper_prompt(char *message);
 
