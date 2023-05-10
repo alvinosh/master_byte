@@ -31,7 +31,13 @@ int main(void)
     // for testing purposes
     add_dummy_flight(&system);
 
+    helper_bg_color(Blue);
+    helper_fg_color(White);
     user_greet();
+
+    helper_bg_color(Reset);
+    helper_fg_color(Reset);
+
     User_Type user_type = user_type_get();
 
     if (user_type == Administrator)
