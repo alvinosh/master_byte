@@ -2,16 +2,15 @@
 
 int helper_get_int(int *num)
 {
-    int a = scanf("%d", num);
+    int a = fscanf(stdin, "%d", num);
     if (a == 0)
     {
-        fprintf(stderr, "Error: failed to read input\n");
-        return -1;
+        goto defer;
     }
     else if (a == EOF)
     {
-        fprintf(stderr, "Error: failed to read input\n");
-        return -1;
+
+        goto defer;
     }
     else if (a == 1)
     {
@@ -19,11 +18,19 @@ int helper_get_int(int *num)
     }
     else
     {
-        fprintf(stderr, "Error: failed to read input\n");
-        return -1;
+        goto defer;
     }
 
     return 0;
+
+defer:
+#ifndef DEBUG
+#else
+    fprintf(stderr, "Error: failed to read integer input\n");
+#endif
+    while (fgetc(stdin) != '\n')
+        ;
+    return -1;
 }
 
 int helper_get_string(char *line)
@@ -33,13 +40,11 @@ int helper_get_string(char *line)
     // error handling
     if (a == 0)
     {
-        fprintf(stderr, "Error: failed to read input\n");
-        return -1;
+        goto defer;
     }
     else if (a == EOF)
     {
-        fprintf(stderr, "Error: failed to read input\n");
-        return -1;
+        goto defer;
     }
     else if (a == 1)
     {
@@ -47,9 +52,17 @@ int helper_get_string(char *line)
     }
     else
     {
-        fprintf(stderr, "Error: failed to read input\n");
-        return -1;
+        goto defer;
     }
+
+defer:
+#ifndef DEBUG
+#else
+    fprintf(stderr, "Error: failed to read integer input\n");
+#endif
+    while (fgetc(stdin) != '\n')
+        ;
+    return -1;
 }
 
 void helper_prompt(char *message)
