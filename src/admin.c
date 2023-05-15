@@ -28,12 +28,49 @@ void admin_print_flights(System *system)
     int flight_count = 0;
     system_flight_get_all(system, flights, &flight_count);
     system_flight_print_all(flights, &flight_count);
+    printf("\n");
 }
 
 void admin_add_airport(System *system)
 {
-    UNUSED(system);
-    printf("UNIMPLEMENTED \n");
+
+    Airport *airport = malloc(sizeof(Airport));
+    system_airport_add(system,airport);
+    char *name = malloc(sizeof(char) * BUFSIZ);
+    char *code = malloc(sizeof(char) * BUFSIZ);
+    char *country = malloc(sizeof(char) * BUFSIZ);
+    char *city = malloc(sizeof(char) * BUFSIZ);
+    helper_prompt("Enter Airport Name");
+    if (helper_get_string(name) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    helper_prompt("Enter Airport Code");
+    if (helper_get_string(code) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    helper_prompt("Enter Airport Country");
+    if (helper_get_string(country) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    helper_prompt("Enter Airport City");
+    if (helper_get_string(city) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(airport->name, name);
+    strcpy(airport->code, code);
+    strcpy(airport->country, country);
+    strcpy(airport->city, city);
+    system_airport_add(system, airport);
+
+
 }
 
 void admin_remove_airport(System *system)
@@ -48,7 +85,9 @@ void admin_print_airports(System *system)
     int airport_count = 0;
     system_airport_get_all(system, airports, &airport_count);
     system_airport_print_all(airports, &airport_count);
-    
+    printf("\n");  
+
+
 }
 
 Admin_Option admin_option_get()
