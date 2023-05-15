@@ -35,6 +35,8 @@ typedef struct
     char to_airport[MAX_STRING_SIZE];
     char price[MAX_STRING_SIZE];
     char date[MAX_STRING_SIZE];
+    char departure_time[MAX_STRING_SIZE];
+    char arrival_time[MAX_STRING_SIZE];
 } Flight;
 
 typedef struct

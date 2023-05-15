@@ -19,6 +19,8 @@ void add_dummy_flight(System *system)
     strcpy(flight.from_airport, "LHR");
     strcpy(flight.to_airport, "LAX");
     strcpy(flight.price, "10300");
+    strcpy(flight.departure_time, "12:00");
+    strcpy(flight.arrival_time, "19:00");
     system_flight_add(system, &flight);
 }
 
@@ -34,7 +36,6 @@ int main(void)
     helper_bg_color(Blue);
     helper_fg_color(White);
     user_greet();
-
     helper_bg_color(Reset);
     helper_fg_color(Reset);
 

@@ -12,8 +12,72 @@ static const char *const admin_option_desc[Admin_Option_Count] = {
 
 void admin_add_flight(System *system)
 {
-    UNUSED(system);
-    printf("UNIMPLEMENTED \n");
+    Flight *flight = malloc(sizeof(Flight));
+
+    helper_prompt("Enter The Flight ID");
+    int *flight_id = malloc(sizeof(int));
+    if (helper_get_int(flight_id) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    flight->entity.id = *flight_id;
+
+    helper_prompt("Enter The From Airport");
+    char *from_airport = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(from_airport) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(flight->from_airport, from_airport);
+    
+    helper_prompt("Enter The To Airport");
+    char *to_airport = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(to_airport) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(flight->to_airport, to_airport);
+
+    helper_prompt("Enter The From Airport");
+    char *Date = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(Date) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(flight->date, Date);
+
+    helper_prompt("Enter The Departure Time");
+    char *departure_time = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(departure_time) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(flight->departure_time, departure_time);
+
+    helper_prompt("Enter The Arrival Time");
+    char *arrival_time = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(arrival_time) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(flight->arrival_time, arrival_time);
+
+    helper_prompt("Enter The Price");
+    char *price = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(price) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(flight->price, price);
+
+    system_flight_add(system, flight);
 }
 
 void admin_remove_flight(System *system)
