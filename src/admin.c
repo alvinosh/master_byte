@@ -35,7 +35,7 @@ void admin_add_airport(System *system)
 {
 
     Airport *airport = malloc(sizeof(Airport));
-    system_airport_add(system,airport);
+    
     char *name = malloc(sizeof(char) * BUFSIZ);
     char *code = malloc(sizeof(char) * BUFSIZ);
     char *country = malloc(sizeof(char) * BUFSIZ);
