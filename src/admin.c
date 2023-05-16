@@ -50,24 +50,6 @@ void admin_add_flight(System *system)
     }
     strcpy(flight->date, Date);
 
-    helper_prompt("Enter The Departure Time");
-    char *departure_time = malloc(sizeof(char) * BUFSIZ);
-    if (helper_get_string(departure_time) != 0)
-    {
-        printf("Invalid Option. Please Try Again \n");
-        return;
-    }
-    strcpy(flight->departure_time, departure_time);
-
-    helper_prompt("Enter The Arrival Time");
-    char *arrival_time = malloc(sizeof(char) * BUFSIZ);
-    if (helper_get_string(arrival_time) != 0)
-    {
-        printf("Invalid Option. Please Try Again \n");
-        return;
-    }
-    strcpy(flight->arrival_time, arrival_time);
-
     helper_prompt("Enter The Price");
     char *price = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(price) != 0)
