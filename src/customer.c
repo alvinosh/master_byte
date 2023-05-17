@@ -2,19 +2,61 @@
 
 static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
+    "Search Flight By From Airport",
     "Book Flight",
-    "Book Flight By From Airport",
     "Quit",
 };
 
-void customer_search_flights()
+void customer_search_flights(System *system)
 {
-    printf("UNIMPLEMENTED \n");
+    int *flightCount=malloc(sizeof(int));
+    Flight *flights=malloc(sizeof(Flight)*BUFSIZ);
+    
+    system_flight_get_all(system, flights, flightCount);
+
+    for (int i = 0; i < *flightCount; i++)
+    {
+        if (flights[i].entity.is_deleted == false) {
+            system_flight_print_one(&flights[i]);
+        }
+    }
+
 }
 
-void customer_book_flight()
+void customer_book_flight(System *system)
 {
-    printf("UNIMPLEMENTED \n");
+    Booking *booking = malloc(sizeof(Booking));
+
+    helper_prompt("Enter The Flight ID You Want To Book");
+    int *flight_id = malloc(sizeof(int));
+    if (helper_get_int(flight_id) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    booking->flight_id = *flight_id;
+
+    helper_prompt("Enter The First Name");
+    char *first_name = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(first_name) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(booking->first_name, first_name);
+
+    helper_prompt("Enter The Last Name");
+    char *last_name = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(last_name) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    strcpy(booking->last_name, last_name);
+
+
+    system_booking_add(system, booking);
+
 }
 
 void customer_get_flight_by_from_airport(System *system)
@@ -27,7 +69,7 @@ void customer_get_flight_by_from_airport(System *system)
         return;
     }
 
-    Flight flights[1024];
+    Flight flights[BUFSIZ];
     int flight_count = 0;
     system_flight_get_all(system, flights, &flight_count);
 
@@ -81,10 +123,10 @@ void customer_run(System *system)
         switch (option)
         {
         case Customer_Search_Flights:
-            customer_search_flights();
+            customer_search_flights(system);
             break;
         case Customer_Book_Flight:
-            customer_book_flight();
+            customer_book_flight(system);
             break;
         case Customer_Flights_By_From_Airport:
             customer_get_flight_by_from_airport(system);
