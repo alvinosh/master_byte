@@ -81,8 +81,11 @@ void admin_remove_airport(System *system)
 
 void admin_print_airports(System *system)
 {
-    UNUSED(system);
-    printf("UNIMPLEMENTED \n");
+    Airport airports[1024];
+    int airport_count = 0;
+    system_airport_get_all(system, airports, &airport_count);
+    system_airport_print_all(airports, &airport_count);
+    
 }
 
 Admin_Option admin_option_get()
