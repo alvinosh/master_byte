@@ -14,15 +14,6 @@ void admin_add_flight(System *system)
 {
     Flight *flight = malloc(sizeof(Flight));
 
-    helper_prompt("Enter The Flight ID");
-    int *flight_id = malloc(sizeof(int));
-    if (helper_get_int(flight_id) != 0)
-    {
-        printf("Invalid Option. Please Try Again \n");
-        return;
-    }
-    flight->entity.id = *flight_id;
-
     helper_prompt("Enter The From Airport");
     char *from_airport = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(from_airport) != 0)
@@ -31,7 +22,7 @@ void admin_add_flight(System *system)
         return;
     }
     strcpy(flight->from_airport, from_airport);
-    
+
     helper_prompt("Enter The To Airport");
     char *to_airport = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(to_airport) != 0)
@@ -41,7 +32,7 @@ void admin_add_flight(System *system)
     }
     strcpy(flight->to_airport, to_airport);
 
-    helper_prompt("Enter The From Airport");
+    helper_prompt("Enter The Departure Date");
     char *Date = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(Date) != 0)
     {
