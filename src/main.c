@@ -34,7 +34,6 @@ int main(void)
     helper_bg_color(Blue);
     helper_fg_color(White);
     user_greet();
-
     helper_bg_color(Reset);
     helper_fg_color(Reset);
 
