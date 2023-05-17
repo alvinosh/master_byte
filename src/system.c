@@ -5,7 +5,7 @@ static const char *const SEQUENCE_FILE_NAME = "./sequence.txt";
 
 static char SYSTEM_FLIGHT = 'F';
 static char SYSTEM_AIRPORT = 'A';
- static char SYSTEM_BOOKING = 'B';
+static char SYSTEM_BOOKING = 'B';
 
 static char SYSTEM_CREATE = 'C';
 static char SYSTEM_UPDATE = 'U';
@@ -280,6 +280,8 @@ void system_airport_add(System *system, Airport *airport)
         fprintf(stderr, "Error opening file.\n");
         exit(1);
     }
+    airport->entity.id = system_seq_next(); // Get the current value and  Increment the value
+    airport->entity.is_deleted = false;
     fprintf(file, "%c,%c,%d,%s,%s,%s,%s;\n", SYSTEM_AIRPORT, SYSTEM_CREATE, airport->entity.id, airport->name, airport->city, airport->code, airport->country); // Write the airport to the file
     fclose(file);                                                                                                                                               // Close the file
 }
@@ -323,16 +325,16 @@ void system_airport_print_all(Airport *airports, int *airport_count)
     }
 }
 
-void system_booking_add(System *system, Booking *booking) {
+void system_booking_add(System *system, Booking *booking)
+{
     FILE *file = fopen(system->file_name, "a"); // Open the file in append mode
     if (file == NULL)
     {
         fprintf(stderr, "Error opening file.\n");
         exit(1);
     }
-    booking->entity.id = system_seq_next();                                                                                                                            // Get the current value and  Increment the value
-    booking->entity.is_deleted = false; 
-    fprintf(file, "%c,%c,%d,%d,%s,%s;\n", SYSTEM_BOOKING, SYSTEM_CREATE, booking->entity.id, booking->flight_id,booking->first_name, booking->last_name ); // Write the booking to the file
-    fclose(file);                                                                                                                                               // Close the file
-
+    booking->entity.id = system_seq_next(); // Get the current value and  Increment the value
+    booking->entity.is_deleted = false;
+    fprintf(file, "%c,%c,%d,%d,%s,%s;\n", SYSTEM_BOOKING, SYSTEM_CREATE, booking->entity.id, booking->flight_id, booking->first_name, booking->last_name); // Write the booking to the file
+    fclose(file);                                                                                                                                          // Close the file
 }
