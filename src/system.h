@@ -59,12 +59,15 @@ void system_airport_get_all(System *system, Airport *airports, int *airport_coun
 void system_airport_add(System *system, Airport *airport);
 void system_airport_remove(System *system, int airport_id);
 void system_airport_edit(System *system, int airport_id, Airport *airport);
+void system_airport_print_one(Flight *flight);
 void system_airport_print_all(Airport *airports, int *airport_count);
 
 void system_booking_get_all(System *system, Booking *bookings, int *booking_count);
 void system_booking_add(System *system, Booking *booking);
 void system_booking_remove(System *system, int booking_id);
 void system_booking_edit(System *system, int booking_id, Booking *booking);
+void system_booking_print_one(Booking *booking);
+void system_booking_print_all(Booking *bookings, int *booking_count);
 
 void system_seq_init();
 int system_seq_current();
