@@ -51,12 +51,20 @@ void admin_add_flight(System *system)
     strcpy(flight->price, price);
 
     system_flight_add(system, flight);
+    printf("Flight Added \n");
 }
 
 void admin_remove_flight(System *system)
 {
-    UNUSED(system);
-    printf("UNIMPLEMENTED \n");
+    helper_prompt("Enter The Flight ID You Want To Remove");
+    int *flight_id = malloc(sizeof(int));
+    if (helper_get_int(flight_id) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    system_flight_remove(system, *flight_id);
+    printf("Flight Removed \n");
 }
 
 void admin_print_flights(System *system)
