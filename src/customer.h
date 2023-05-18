@@ -14,6 +14,7 @@ typedef enum
     Customer_Search_Flights = 0,
     Customer_Flights_By_From_Airport,
     Customer_Book_Flight,
+    Customer_My_Bookings,
     Customer_Quit,
     Customer_Option_Count
 } Customer_Option;

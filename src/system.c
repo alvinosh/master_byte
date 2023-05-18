@@ -81,7 +81,7 @@ void system_flight_schema(Flight *flight, char *token)
     strcpy(flight->to_airport, token);
     token = strtok(NULL, ",");
     strcpy(flight->price, token);
-    token = strtok(NULL, ",");
+    token = strtok(NULL, ";");
     strcpy(flight->date, token);
 }
 
@@ -211,7 +211,7 @@ void system_airport_schema(Airport *airport, char *token)
     strcpy(airport->city, token);
     token = strtok(NULL, ",");
     strcpy(airport->code, token);
-    token = strtok(NULL, ",");
+    token = strtok(NULL, ";");
     strcpy(airport->country, token);
 }
 
@@ -338,7 +338,7 @@ void system_booking_schema(Booking *booking, char *token)
     booking->flight_id = atoi(token);
     token = strtok(NULL, ",");
     strcpy(booking->first_name, token);
-    token = strtok(NULL, ",");
+    token = strtok(NULL, ";");
     strcpy(booking->last_name, token);
 }
 

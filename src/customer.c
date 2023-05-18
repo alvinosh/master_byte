@@ -4,6 +4,7 @@ static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
     "Search Flight By From Airport",
     "Book Flight",
+    "My Bookings",
     "Quit",
 };
 
@@ -83,6 +84,37 @@ void customer_get_flight_by_from_airport(System *system)
         }
     }
 }
+void customer_my_bookings(System *system)
+{
+    helper_prompt("Enter The First Name");
+    char *first_name = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(first_name) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+
+    helper_prompt("Enter The Last Name");
+    char *last_name = malloc(sizeof(char) * BUFSIZ);
+    if (helper_get_string(last_name) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+
+    Booking bookings[BUFSIZ];
+    int booking_count = 0;
+    system_booking_get_all(system, bookings, &booking_count);
+
+    for (int i = 0; i < booking_count; i++)
+    {
+
+         if (strcmp(first_name, bookings[i].first_name) == 0 && strcmp(last_name, bookings[i].last_name) == 0)
+        {
+            system_booking_print_one(&bookings[i]);
+        }
+    }
+}
 
 Customer_Option customer_option_get()
 {
@@ -131,6 +163,9 @@ void customer_run(System *system)
             break;
         case Customer_Flights_By_From_Airport:
             customer_get_flight_by_from_airport(system);
+            break;
+        case Customer_My_Bookings:
+            customer_my_bookings(system);
             break;
         case Customer_Quit:
             loop = 0;
