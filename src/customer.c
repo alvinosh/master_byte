@@ -3,7 +3,7 @@
 static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
     "Search Flight By From Airport",
-    "Search Flight By ID"
+    "Search Flight By ID",
     "Book Flight",
     "My Bookings",
     "Quit",
@@ -88,6 +88,7 @@ void customer_get_flight_by_from_airport(System *system)
 void customer_flights_by_ID(System *system)
 {
     helper_prompt("Enter The Flight ID");
+    printf("\n");
     int *flight_id = malloc(sizeof(int));
     if (helper_get_int(flight_id) != 0)
     {
