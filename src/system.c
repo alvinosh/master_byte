@@ -342,7 +342,7 @@ void system_booking_schema(Booking *booking, char *token)
     strcpy(booking->last_name, token);
 }
 
-void system_booking_get_all(System *system, Booking *bookings, int booking_count)
+void system_booking_get_all(System *system, Booking *bookings, int *booking_count)
 {
     FILE *file = fopen(system->file_name, "r"); // Open the file in read mode
     if (file == NULL)
@@ -366,8 +366,7 @@ void system_booking_get_all(System *system, Booking *bookings, int booking_count
 
                 system_booking_schema(&bookings[i], token);
 
-                bookings[i]
-                    .entity.is_deleted = false;
+                bookings[i].entity.is_deleted = false;
                 i++;
             }
             else if (token[0] == SYSTEM_DELETE)
@@ -396,6 +395,7 @@ void system_booking_get_all(System *system, Booking *bookings, int booking_count
             }
         }
     }
+    *booking_count = i;
     fclose(file); // Close the file
 }
 
