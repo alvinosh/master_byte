@@ -62,6 +62,7 @@ void customer_book_flight(System *system)
 void customer_get_flight_by_from_airport(System *system)
 {
     helper_prompt("Enter The Airport You Want Flights From");
+    printf("\n");
     char *from_air = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(from_air) != 0)
     {
