@@ -120,8 +120,16 @@ void admin_add_airport(System *system)
 
 void admin_remove_airport(System *system)
 {
-    UNUSED(system);
-    printf("UNIMPLEMENTED \n");
+    helper_prompt("Enter The Airport ID You Want To Remove");
+    int *airport_id = malloc(sizeof(int));
+    if (helper_get_int(airport_id) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    system_airport_remove(system, *airport_id);
+    printf("Airport Removed \n");
+   
 }
 
 void admin_print_airports(System *system)
