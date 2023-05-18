@@ -3,6 +3,7 @@
 static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
     "Search Flight By From Airport",
+    "Search Flight By ID"
     "Book Flight",
     "My Bookings",
     "Quit",
@@ -84,6 +85,30 @@ void customer_get_flight_by_from_airport(System *system)
         }
     }
 }
+void customer_flights_by_ID(System *system)
+{
+    helper_prompt("Enter The Flight ID");
+    int *flight_id = malloc(sizeof(int));
+    if (helper_get_int(flight_id) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+
+    Flight flights[BUFSIZ];
+    int flight_count = 0;
+    system_flight_get_all(system, flights, &flight_count);
+
+    for (int i = 0; i < flight_count; i++)
+    {
+        if (*flight_id == flights[i].entity.id)
+        {
+            system_flight_print_one(&flights[i]);
+        }
+    }
+    printf("\n");
+}
+
 void customer_my_bookings(System *system)
 {
     helper_prompt("Enter The First Name");
@@ -158,11 +183,14 @@ void customer_run(System *system)
         case Customer_Search_Flights:
             customer_search_flights(system);
             break;
-        case Customer_Book_Flight:
-            customer_book_flight(system);
-            break;
         case Customer_Flights_By_From_Airport:
             customer_get_flight_by_from_airport(system);
+            break;
+        case Customer_Flights_By_ID:
+            customer_flights_by_ID(system);
+            break;
+        case Customer_Book_Flight:
+            customer_book_flight(system);
             break;
         case Customer_My_Bookings:
             customer_my_bookings(system);
