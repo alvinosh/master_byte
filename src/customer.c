@@ -28,7 +28,7 @@ void customer_search_flights(System *system)
 void customer_book_flight(System *system)
 {
     Booking *booking = malloc(sizeof(Booking));
-
+    Flight *flights = malloc(sizeof(Flight) * BUFSIZ);
     helper_prompt("Enter The Flight ID You Want To Book");
     int *flight_id = malloc(sizeof(int));
     if (helper_get_int(flight_id) != 0)
@@ -36,29 +36,41 @@ void customer_book_flight(System *system)
         printf("Invalid Option. Please Try Again \n");
         return;
     }
-    booking->flight_id = *flight_id;
+    int flight_count = 0;
+    system_flight_get_all(system, flights, &flight_count);
 
-    helper_prompt("Enter The First Name");
-    char *first_name = malloc(sizeof(char) * BUFSIZ);
-    if (helper_get_string(first_name) != 0)
+    for (int i = 0; i < flight_count; i++)
     {
-        printf("Invalid Option. Please Try Again \n");
-        return;
+        if (*flight_id == flights[i].entity.id)
+        {
+            booking->flight_id = *flight_id;
+
+            helper_prompt("Enter The First Name");
+            char *first_name = malloc(sizeof(char) * BUFSIZ);
+            if (helper_get_string(first_name) != 0)
+            {
+                printf("Invalid Option. Please Try Again \n");
+                return;
+            }
+            strcpy(booking->first_name, first_name);
+
+            helper_prompt("Enter The Last Name");
+            char *last_name = malloc(sizeof(char) * BUFSIZ);
+            if (helper_get_string(last_name) != 0)
+            {
+                printf("Invalid Option. Please Try Again \n");
+                return;
+            }
+            strcpy(booking->last_name, last_name);
+
+
+            system_booking_add(system, booking);
+            printf("Flight Booked \n");
+            return;
+        }
     }
-    strcpy(booking->first_name, first_name);
-
-    helper_prompt("Enter The Last Name");
-    char *last_name = malloc(sizeof(char) * BUFSIZ);
-    if (helper_get_string(last_name) != 0)
-    {
-        printf("Invalid Option. Please Try Again \n");
-        return;
-    }
-    strcpy(booking->last_name, last_name);
-
-
-    system_booking_add(system, booking);
-
+    printf("Invalid ID. Please Try Again \n");
+    return;
 }
 
 void customer_get_flight_by_from_airport(System *system)
