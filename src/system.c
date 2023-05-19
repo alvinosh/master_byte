@@ -117,6 +117,9 @@ void system_entity_schema(char EntityCode, void **entity, char *token)
         *entity = malloc(sizeof(Booking));
         system_booking_schema((Booking *)*entity, token);
         break;
+    default:
+        fprintf(stderr, "Invalid Entity Code.\n");
+        exit(1);
     }
 }
 
