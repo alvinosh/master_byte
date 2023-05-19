@@ -1,15 +1,6 @@
 #include "system.h"
-#include "helper.h"
 
 static const char *const SEQUENCE_FILE_NAME = "./sequence.txt";
-
-static char SYSTEM_FLIGHT = 'F';
-static char SYSTEM_AIRPORT = 'A';
-static char SYSTEM_BOOKING = 'B';
-
-static char SYSTEM_CREATE = 'C';
-static char SYSTEM_UPDATE = 'U';
-static char SYSTEM_DELETE = 'D';
 
 void system_init(System *system, char *file_name)
 {
@@ -73,8 +64,33 @@ int system_seq_next()
     return num;
 }
 
+void system_airport_schema(Airport *airport, char *token)
+{
+
+    token = strtok(NULL, ",");
+    strcpy(airport->name, token);
+    token = strtok(NULL, ",");
+    strcpy(airport->city, token);
+    token = strtok(NULL, ",");
+    strcpy(airport->code, token);
+    token = strtok(NULL, ";");
+    strcpy(airport->country, token);
+}
+
+void system_booking_schema(Booking *booking, char *token)
+{
+
+    token = strtok(NULL, ",");
+    booking->flight_id = atoi(token);
+    token = strtok(NULL, ",");
+    strcpy(booking->first_name, token);
+    token = strtok(NULL, ";");
+    strcpy(booking->last_name, token);
+}
+
 void system_flight_schema(Flight *flight, char *token)
 {
+
     token = strtok(NULL, ",");
     strcpy(flight->from_airport, token);
     token = strtok(NULL, ",");
@@ -83,6 +99,129 @@ void system_flight_schema(Flight *flight, char *token)
     strcpy(flight->price, token);
     token = strtok(NULL, ";");
     strcpy(flight->date, token);
+}
+
+void system_entity_schema(char EntityCode, void **entity, char *token)
+{
+    switch (EntityCode)
+    {
+    case SYSTEM_FLIGHT:
+        *entity = malloc(sizeof(Flight));
+        system_flight_schema((Flight *)*entity, token);
+        break;
+    case SYSTEM_AIRPORT:
+        *entity = malloc(sizeof(Airport));
+        system_airport_schema((Airport *)*entity, token);
+        break;
+    case SYSTEM_BOOKING:
+        *entity = malloc(sizeof(Booking));
+        system_booking_schema((Booking *)*entity, token);
+        break;
+    }
+}
+
+void system_entity_get_all(System *system, const char EntityCode, LinkedList *entities)
+{
+    FILE *file = fopen(system->file_name, "r"); // Open the file in read mode
+    if (file == NULL)
+    {
+        fprintf(stderr, "Error opening file.\n");
+        exit(1);
+    }
+
+    char line[1024];
+    while (fgets(line, sizeof(line), file))
+    {
+
+        char *token = strtok(line, ",");
+        if (token[0] == EntityCode)
+        {
+
+            token = strtok(NULL, ",");
+            if (token[0] == SYSTEM_CREATE)
+            {
+
+                void *entity;
+
+                token = strtok(NULL, ",");
+                int entity_id = atoi(token);
+
+                system_entity_schema(EntityCode, &entity, token);
+
+                ((Entity *)entity)
+                    ->id = entity_id;
+                ((Entity *)entity)
+                    ->is_deleted = false;
+                ll_push_front(entities, entity);
+            }
+            else if (token[0] == SYSTEM_DELETE)
+            {
+                token = strtok(NULL, ",");
+                int id = atoi(token);
+                for (Iterator i = iter_create(entities); !i.finished; iter_next(&i))
+                {
+                    Entity *entity = ((Entity *)i.current->data);
+                    if (entity->id == id)
+                    {
+                        entity->is_deleted = true;
+                    }
+                }
+            }
+            else if (token[0] == SYSTEM_UPDATE)
+            {
+                token = strtok(NULL, ",");
+                int id = atoi(token);
+                for (Iterator i = iter_create(entities); !i.finished; iter_next(&i))
+                {
+                    Entity *entity = ((Entity *)i.current->data);
+                    if (entity->id == id)
+                    {
+                        system_entity_schema(EntityCode, (void **)&entity, token);
+                    }
+                }
+            }
+        }
+    }
+    fclose(file); // Close the file
+}
+
+void system_entity_print_all(char EntityCode, LinkedList *entities)
+{
+
+    for (Iterator i = iter_create(entities); !i.finished; iter_next(&i))
+    {
+        Entity *entity = ((Entity *)i.current->data);
+        if (entity->is_deleted == false)
+        {
+            switch (EntityCode)
+            {
+            case SYSTEM_FLIGHT:
+                system_flight_print_one((Flight *)entity);
+                break;
+            case SYSTEM_AIRPORT:
+                system_airport_print_one((Airport *)entity);
+                break;
+            case SYSTEM_BOOKING:
+                system_booking_print_one((Booking *)entity);
+                break;
+            default:
+                fprintf(stderr, "Invalid Entity Code.\n");
+                exit(1);
+            }
+        }
+    }
+}
+
+void system_entity_remove(System *system, const char EntityCode, int id)
+{
+    FILE *file = fopen(system->file_name, "a"); // Open the file in append mode
+    if (file == NULL)
+    {
+        fprintf(stderr, "Error opening file.\n");
+        exit(1);
+    }
+    fprintf(file, "%c,%c,%d,\n", EntityCode, SYSTEM_DELETE, id); // Write the flight to the file
+    fclose(file);                                                // Close the file
 }
 
 void system_flight_add(System *system, Flight *flight)
@@ -99,76 +238,6 @@ void system_flight_add(System *system, Flight *flight)
     flight->entity.is_deleted = false;                                                                                                                                // Set the is_deleted to false
     fprintf(file, "%c,%c,%d,%s,%s,%s,%s;\n", SYSTEM_FLIGHT, SYSTEM_CREATE, flight->entity.id, flight->from_airport, flight->to_airport, flight->price, flight->date); // Write the flight to the file
     fclose(file);                                                                                                                                                     // Close the file
-}
-
-void system_flight_get_all(System *system, Flight *flights, int *flight_count)
-{
-    FILE *file = fopen(system->file_name, "r"); // Open the file in read mode
-    if (file == NULL)
-    {
-        fprintf(stderr, "Error opening file.\n");
-        exit(1);
-    }
-
-    char line[1024];
-    int i = 0;
-    while (fgets(line, sizeof(line), file))
-    {
-        char *token = strtok(line, ",");
-        if (token[0] == SYSTEM_FLIGHT)
-        {
-            token = strtok(NULL, ",");
-            if (token[0] == SYSTEM_CREATE)
-            {
-                token = strtok(NULL, ",");
-                flights[i].entity.id = atoi(token);
-
-                system_flight_schema(&flights[i], token);
-
-                flights[i]
-                    .entity.is_deleted = false;
-                i++;
-            }
-            else if (token[0] == SYSTEM_DELETE)
-            {
-                token = strtok(NULL, ",");
-                int id = atoi(token);
-                for (int j = 0; j < i; j++)
-                {
-                    if (flights[j].entity.id == id)
-                    {
-                        flights[j].entity.is_deleted = true;
-                    }
-                }
-            }
-            else if (token[0] == SYSTEM_UPDATE)
-            {
-                token = strtok(NULL, ",");
-                int id = atoi(token);
-                for (int j = 0; j < i; j++)
-                {
-                    if (flights[j].entity.id == id)
-                    {
-                        system_flight_schema(&flights[i], token);
-                    }
-                }
-            }
-        }
-    }
-    *flight_count = i;
-    fclose(file); // Close the file
-}
-
-void system_flight_remove(System *system, int flight_id)
-{
-    FILE *file = fopen(system->file_name, "a"); // Open the file in append mode
-    if (file == NULL)
-    {
-        fprintf(stderr, "Error opening file.\n");
-        exit(1);
-    }
-    fprintf(file, "%c,%c,%d,\n", SYSTEM_FLIGHT, SYSTEM_DELETE, flight_id); // Write the flight to the file
-    fclose(file);                                                          // Close the file
 }
 
 void system_flight_edit(System *system, int flight_id, Flight *flight)
@@ -192,87 +261,6 @@ void system_flight_print_one(Flight *flight)
     printf("    Date: %s\n", flight->date);
 }
 
-void system_flight_print_all(Flight *flight, int *flight_count)
-{
-    for (int i = 0; i < *flight_count; i++)
-    {
-        if (!flight[i].entity.is_deleted)
-        {
-            system_flight_print_one(&flight[i]);
-        }
-    }
-}
-
-void system_airport_schema(Airport *airport, char *token)
-{
-    token = strtok(NULL, ",");
-    strcpy(airport->name, token);
-    token = strtok(NULL, ",");
-    strcpy(airport->city, token);
-    token = strtok(NULL, ",");
-    strcpy(airport->code, token);
-    token = strtok(NULL, ";");
-    strcpy(airport->country, token);
-}
-
-void system_airport_get_all(System *system, Airport *airports, int *airport_count)
-{
-    FILE *file = fopen(system->file_name, "r"); // Open the file in read mode
-    if (file == NULL)
-    {
-        fprintf(stderr, "Error opening file.\n");
-        exit(1);
-    }
-
-    char line[1024];
-    int i = 0;
-    while (fgets(line, sizeof(line), file))
-    {
-        char *token = strtok(line, ",");
-        if (token[0] == SYSTEM_AIRPORT)
-        {
-            token = strtok(NULL, ",");
-            if (token[0] == SYSTEM_CREATE)
-            {
-                token = strtok(NULL, ",");
-                airports[i].entity.id = atoi(token);
-
-                system_airport_schema(&airports[i], token);
-
-                airports[i]
-                    .entity.is_deleted = false;
-                i++;
-            }
-            else if (token[0] == SYSTEM_DELETE)
-            {
-                token = strtok(NULL, ",");
-                int id = atoi(token);
-                for (int j = 0; j < i; j++)
-                {
-                    if (airports[j].entity.id == id)
-                    {
-                        airports[j].entity.is_deleted = true;
-                    }
-                }
-            }
-            else if (token[0] == SYSTEM_UPDATE)
-            {
-                token = strtok(NULL, ",");
-                int id = atoi(token);
-                for (int j = 0; j < i; j++)
-                {
-                    if (airports[j].entity.id == id)
-                    {
-                        system_airport_schema(&airports[i], token);
-                    }
-                }
-            }
-        }
-    }
-    *airport_count = i;
-    fclose(file); // Close the file
-}
-
 void system_airport_add(System *system, Airport *airport)
 {
     FILE *file = fopen(system->file_name, "a"); // Open the file in append mode
@@ -285,18 +273,6 @@ void system_airport_add(System *system, Airport *airport)
     airport->entity.is_deleted = false;
     fprintf(file, "%c,%c,%d,%s,%s,%s,%s;\n", SYSTEM_AIRPORT, SYSTEM_CREATE, airport->entity.id, airport->name, airport->city, airport->code, airport->country); // Write the airport to the file
     fclose(file);                                                                                                                                               // Close the file
-}
-
-void system_airport_remove(System *system, int airport_id)
-{
-    FILE *file = fopen(system->file_name, "a"); // Open the file in append mode
-    if (file == NULL)
-    {
-        fprintf(stderr, "Error opening file.\n");
-        exit(1);
-    }
-    fprintf(file, "%c,%c,%d,\n", SYSTEM_AIRPORT, SYSTEM_DELETE, airport_id); // Write the airport to the file
-    fclose(file);                                                            // Close the file
 }
 
 void system_airport_edit(System *system, int airport_id, Airport *airport)
@@ -320,85 +296,6 @@ void system_airport_print_one(Airport *airport)
     printf("    Country: %s\n", airport->country);
 }
 
-void system_airport_print_all(Airport *airports, int *airport_count)
-{
-    for (int i = 0; i < *airport_count; i++)
-    {
-        if (!airports[i].entity.is_deleted)
-        {
-            system_airport_print_one(&airports[i]);
-        }
-    }
-}
-
-void system_booking_schema(Booking *booking, char *token)
-{
-
-    token = strtok(NULL, ",");
-    booking->flight_id = atoi(token);
-    token = strtok(NULL, ",");
-    strcpy(booking->first_name, token);
-    token = strtok(NULL, ";");
-    strcpy(booking->last_name, token);
-}
-
-void system_booking_get_all(System *system, Booking *bookings, int *booking_count)
-{
-    FILE *file = fopen(system->file_name, "r"); // Open the file in read mode
-    if (file == NULL)
-    {
-        fprintf(stderr, "Error opening file.\n");
-        exit(1);
-    }
-
-    char line[1024];
-    int i = 0;
-    while (fgets(line, sizeof(line), file))
-    {
-        char *token = strtok(line, ",");
-        if (token[0] == SYSTEM_BOOKING)
-        {
-            token = strtok(NULL, ",");
-            if (token[0] == SYSTEM_CREATE)
-            {
-                token = strtok(NULL, ",");
-                bookings[i].entity.id = atoi(token);
-
-                system_booking_schema(&bookings[i], token);
-
-                bookings[i].entity.is_deleted = false;
-                i++;
-            }
-            else if (token[0] == SYSTEM_DELETE)
-            {
-                token = strtok(NULL, ",");
-                int id = atoi(token);
-                for (int j = 0; j < i; j++)
-                {
-                    if (bookings[j].entity.id == id)
-                    {
-                        bookings[j].entity.is_deleted = true;
-                    }
-                }
-            }
-            else if (token[0] == SYSTEM_UPDATE)
-            {
-                token = strtok(NULL, ",");
-                int id = atoi(token);
-                for (int j = 0; j < i; j++)
-                {
-                    if (bookings[j].entity.id == id)
-                    {
-                        system_booking_schema(&bookings[i], token);
-                    }
-                }
-            }
-        }
-    }
-    *booking_count = i;
-    fclose(file); // Close the file
-}
-
 void system_booking_add(System *system, Booking *booking)
 {
     FILE *file = fopen(system->file_name, "a"); // Open the file in append mode
@@ -411,18 +308,6 @@ void system_booking_add(System *system, Booking *booking)
     booking->entity.is_deleted = false;
     fprintf(file, "%c,%c,%d,%d,%s,%s;\n", SYSTEM_BOOKING, SYSTEM_CREATE, booking->entity.id, booking->flight_id, booking->first_name, booking->last_name); // Write the booking to the file
     fclose(file);                                                                                                                                          // Close the file
-}
-
-void system_booking_remove(System *system, int booking_id)
-{
-    FILE *file = fopen(system->file_name, "a"); // Open the file in append mode
-    if (file == NULL)
-    {
-        fprintf(stderr, "Error opening file.\n");
-        exit(1);
-    }
-    fprintf(file, "%c,%c,%d,\n", SYSTEM_BOOKING, SYSTEM_DELETE, booking_id); // Write the booking to the file
-    fclose(file);                                                            // Close the file
 }
 
 void system_booking_edit(System *system, int booking_id, Booking *booking)
@@ -443,14 +328,4 @@ void system_booking_print_one(Booking *booking)
     printf("    Flight ID: %d\n", booking->flight_id);
     printf("    First Name: %s\n", booking->first_name);
     printf("    Last Name: %s\n", booking->last_name);
-}
-void system_booking_print_all(Booking *bookings, int *booking_count)
-{
-    for (int i = 0; i < *booking_count; i++)
-    {
-        if (!bookings[i].entity.is_deleted)
-        {
-            system_booking_print_one(&bookings[i]);
-        }
-    }
 }

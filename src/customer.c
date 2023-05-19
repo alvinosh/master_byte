@@ -11,24 +11,26 @@ static const char *const customer_option_desc[Customer_Option_Count] = {
 
 void customer_search_flights(System *system)
 {
-    int *flightCount=malloc(sizeof(int));
-    Flight *flights=malloc(sizeof(Flight)*BUFSIZ);
-    
-    system_flight_get_all(system, flights, flightCount);
 
-    for (int i = 0; i < *flightCount; i++)
+    LinkedList flights;
+    ll_init(&flights);
+    system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
     {
-        if (flights[i].entity.is_deleted == false) {
-            system_flight_print_one(&flights[i]);
+        Flight *flight = ((Flight *)i.current->data);
+        if (flight->entity.is_deleted == false)
+        {
+            system_flight_print_one(flight);
         }
     }
 
+    printf("\n");
 }
 
 void customer_book_flight(System *system)
 {
     Booking *booking = malloc(sizeof(Booking));
-    Flight *flights = malloc(sizeof(Flight) * BUFSIZ);
+
     helper_prompt("Enter The Flight ID You Want To Book");
     int *flight_id = malloc(sizeof(int));
     if (helper_get_int(flight_id) != 0)
@@ -36,12 +38,15 @@ void customer_book_flight(System *system)
         printf("Invalid Option. Please Try Again \n");
         return;
     }
-    int flight_count = 0;
-    system_flight_get_all(system, flights, &flight_count);
 
-    for (int i = 0; i < flight_count; i++)
+    LinkedList flights;
+    ll_init(&flights);
+    system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
     {
-        if (*flight_id == flights[i].entity.id)
+        Flight *flight = ((Flight *)i.current->data);
+
+        if (*flight_id == flight->entity.id)
         {
             booking->flight_id = *flight_id;
 
@@ -63,7 +68,6 @@ void customer_book_flight(System *system)
             }
             strcpy(booking->last_name, last_name);
 
-
             system_booking_add(system, booking);
             printf("Flight Booked \n");
             return;
@@ -84,16 +88,17 @@ void customer_get_flight_by_from_airport(System *system)
         return;
     }
 
-    Flight flights[BUFSIZ];
-    int flight_count = 0;
-    system_flight_get_all(system, flights, &flight_count);
-
-    for (int i = 0; i < flight_count; i++)
+    LinkedList flights;
+    ll_init(&flights);
+    system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
     {
-        if (strcmp(from_air, flights[i].from_airport) == 0)
+        Flight *flight = ((Flight *)i.current->data);
+
+        if (strcmp(from_air, flight->from_airport) == 0)
         {
             // printf("%s ", flights[i].price);
-            system_flight_print_one(&flights[i]);
+            system_flight_print_one(flight);
         }
     }
 }
@@ -108,15 +113,16 @@ void customer_flights_by_ID(System *system)
         return;
     }
 
-    Flight flights[BUFSIZ];
-    int flight_count = 0;
-    system_flight_get_all(system, flights, &flight_count);
-
-    for (int i = 0; i < flight_count; i++)
+    LinkedList flights;
+    ll_init(&flights);
+    system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
     {
-        if (*flight_id == flights[i].entity.id)
+        Flight *flight = ((Flight *)i.current->data);
+
+        if (*flight_id == flight->entity.id)
         {
-            system_flight_print_one(&flights[i]);
+            system_flight_print_one(flight);
         }
     }
     printf("\n");
@@ -140,16 +146,16 @@ void customer_my_bookings(System *system)
         return;
     }
 
-    Booking bookings[BUFSIZ];
-    int booking_count = 0;
-    system_booking_get_all(system, bookings, &booking_count);
-
-    for (int i = 0; i < booking_count; i++)
+    LinkedList bookings;
+    ll_init(&bookings);
+    system_entity_get_all(system, SYSTEM_BOOKING, &bookings);
+    for (Iterator i = iter_create(&bookings); !i.finished; iter_next(&i))
     {
+        Booking *booking = ((Booking *)i.current->data);
 
-         if (strcmp(first_name, bookings[i].first_name) == 0 && strcmp(last_name, bookings[i].last_name) == 0)
+        if (strcmp(first_name, booking->first_name) == 0 && strcmp(last_name, booking->last_name) == 0)
         {
-            system_booking_print_one(&bookings[i]);
+            system_booking_print_one(booking);
         }
     }
 }

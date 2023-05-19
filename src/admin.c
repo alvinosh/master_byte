@@ -63,16 +63,18 @@ void admin_remove_flight(System *system)
         printf("Invalid Option. Please Try Again \n");
         return;
     }
-    system_flight_remove(system, *flight_id);
+    system_entity_remove(system, SYSTEM_FLIGHT, *flight_id);
     printf("Flight Removed \n");
 }
 
 void admin_print_flights(System *system)
 {
-    Flight flights[1024];
-    int flight_count = 0;
-    system_flight_get_all(system, flights, &flight_count);
-    system_flight_print_all(flights, &flight_count);
+
+    LinkedList flights;
+    ll_init(&flights);
+
+    system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+    system_entity_print_all(SYSTEM_FLIGHT, &flights);
     printf("\n");
 }
 
@@ -125,17 +127,16 @@ void admin_remove_airport(System *system)
         printf("Invalid Option. Please Try Again \n");
         return;
     }
-    system_airport_remove(system, *airport_id);
+    system_entity_remove(system, SYSTEM_AIRPORT, *airport_id);
     printf("Airport Removed \n");
-   
 }
 
 void admin_print_airports(System *system)
 {
-    Airport airports[1024];
-    int airport_count = 0;
-    system_airport_get_all(system, airports, &airport_count);
-    system_airport_print_all(airports, &airport_count);
+    LinkedList airports;
+    ll_init(&airports);
+    system_entity_get_all(system, SYSTEM_AIRPORT, &airports);
+    system_entity_print_all(SYSTEM_AIRPORT, &airports);
     printf("\n");
 }
 
@@ -204,6 +205,7 @@ void admin_run(System *system)
     while (loop)
     {
         Admin_Option option = admin_option_get();
+
         switch (option)
         {
         case Admin_Add_Flight:

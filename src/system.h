@@ -6,6 +6,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "helper.h"
+#include "ll.h"
+
+#define SYSTEM_FLIGHT 'F'
+#define SYSTEM_AIRPORT 'A'
+#define SYSTEM_BOOKING 'B'
+
+#define SYSTEM_CREATE 'C'
+#define SYSTEM_UPDATE 'U'
+#define SYSTEM_DELETE 'D'
+
 #define MAX_STRING_SIZE 128
 
 typedef struct
@@ -48,26 +59,22 @@ typedef struct
 
 void system_init(System *system, char *file_name);
 
-void system_flight_get_all(System *system, Flight *flights, int *flight_count);
+void system_entity_schema(char EntityCode, void **entity, char *token);
+void system_entity_get_all(System *system, const char EntityCode, LinkedList *entities);
+void system_entity_remove(System *system, const char EntityCode, int id);
+void system_entity_print_all(char EntityCode, LinkedList *entities);
+
 void system_flight_add(System *system, Flight *flight);
-void system_flight_remove(System *system, int flight_id);
 void system_flight_edit(System *system, int flight_id, Flight *flight);
 void system_flight_print_one(Flight *flight);
-void system_flight_print_all(Flight *flight, int *flight_count);
 
-void system_airport_get_all(System *system, Airport *airports, int *airport_count);
 void system_airport_add(System *system, Airport *airport);
-void system_airport_remove(System *system, int airport_id);
 void system_airport_edit(System *system, int airport_id, Airport *airport);
 void system_airport_print_one(Airport *airports);
-void system_airport_print_all(Airport *airports, int *airport_count);
 
-void system_booking_get_all(System *system, Booking *bookings, int *booking_count);
 void system_booking_add(System *system, Booking *booking);
-void system_booking_remove(System *system, int booking_id);
 void system_booking_edit(System *system, int booking_id, Booking *booking);
 void system_booking_print_one(Booking *booking);
-void system_booking_print_all(Booking *bookings, int *booking_count);
 
 void system_seq_init();
 int system_seq_current();
