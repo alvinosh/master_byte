@@ -63,8 +63,8 @@ void admin_remove_flight(System *system)
         printf("Invalid Option. Please Try Again \n");
         return;
     }
-    system_entity_remove(system, SYSTEM_FLIGHT, *flight_id);
-    printf("Flight Removed \n");
+            system_entity_remove(system, SYSTEM_FLIGHT, *flight_id);
+            printf("Flight Removed \n");
 }
 
 void admin_print_flights(System *system)
@@ -126,9 +126,23 @@ void admin_remove_airport(System *system)
     {
         printf("Invalid Option. Please Try Again \n");
         return;
+    }    
+    LinkedList *airports=malloc(sizeof(LinkedList));
+    ll_init(airports);
+    system_entity_get_all(system, SYSTEM_AIRPORT, airports);
+    for (Iterator i = iter_create(airports); !i.finished; iter_next(&i))
+    {
+        Airport *airport = ((Airport *)i.current->data);
+
+        if (*airport_id==airport->entity.id)
+        {
+            system_entity_remove(system, SYSTEM_AIRPORT, *airport_id);
+            printf("Airport Removed \n");
+            return;
+        }
     }
-    system_entity_remove(system, SYSTEM_AIRPORT, *airport_id);
-    printf("Airport Removed \n");
+    printf("Invalid ID. Please try again \n");
+    return;
 }
 
 void admin_print_airports(System *system)

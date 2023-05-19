@@ -262,6 +262,7 @@ void system_flight_print_one(Flight *flight)
     printf("    To Airport: %s\n", flight->to_airport);
     printf("    Price: %s\n", flight->price);
     printf("    Date: %s\n", flight->date);
+    printf("\n");
 }
 
 void system_airport_add(System *system, Airport *airport)
@@ -297,6 +298,7 @@ void system_airport_print_one(Airport *airport)
     printf("    City: %s\n", airport->city);
     printf("    Code: %s\n", airport->code);
     printf("    Country: %s\n", airport->country);
+    printf("\n");
 }
 
 void system_booking_add(System *system, Booking *booking)
@@ -331,4 +333,5 @@ void system_booking_print_one(Booking *booking)
     printf("    Flight ID: %d\n", booking->flight_id);
     printf("    First Name: %s\n", booking->first_name);
     printf("    Last Name: %s\n", booking->last_name);
+    printf("\n");
 }
