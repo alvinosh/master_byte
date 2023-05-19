@@ -80,7 +80,7 @@ void admin_add_airport(System *system)
 {
 
     Airport *airport = malloc(sizeof(Airport));
-    
+
     char *name = malloc(sizeof(char) * BUFSIZ);
     char *code = malloc(sizeof(char) * BUFSIZ);
     char *country = malloc(sizeof(char) * BUFSIZ);
@@ -114,8 +114,6 @@ void admin_add_airport(System *system)
     strcpy(airport->country, country);
     strcpy(airport->city, city);
     system_airport_add(system, airport);
-
-
 }
 
 void admin_remove_airport(System *system)
@@ -130,9 +128,7 @@ void admin_print_airports(System *system)
     int airport_count = 0;
     system_airport_get_all(system, airports, &airport_count);
     system_airport_print_all(airports, &airport_count);
-    printf("\n");  
-
-
+    printf("\n");
 }
 
 Admin_Option admin_option_get()
