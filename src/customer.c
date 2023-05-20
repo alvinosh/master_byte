@@ -22,9 +22,10 @@ void customer_search_flights(System *system)
         {
             system_flight_print_one(flight);
         }
+        printf("\n");
     }
 
-    printf("\n");
+    
 }
 
 void customer_book_flight(System *system)

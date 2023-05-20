@@ -99,6 +99,23 @@ void admin_add_airport(System *system)
         printf("Invalid Option. Please Try Again \n");
         return;
     }
+    if(strlen(code) != 3){
+        printf("Invalid Option. Code must be 3 letters. Please Try Again \n");
+        return;
+    }
+    LinkedList *airports;
+    ll_init(airports);
+    system_entity_get_all(system, SYSTEM_AIRPORT, airports);
+    for (Iterator i = iter_create(airports); !i.finished; iter_next(&i))
+    {
+        Airport *airPort = ((Airport *)i.current->data);
+
+        if (strcmp(code,airPort->code)==0)
+        {
+            printf("Error. Code must be unique. Airport already exists. Please Try Again \n");
+            return;
+        }
+    }
     helper_prompt("Enter Airport Country");
     if (helper_get_string(country) != 0)
     {
