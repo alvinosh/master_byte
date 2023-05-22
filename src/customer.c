@@ -6,6 +6,7 @@ static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flight By From Airport",
     "Search Flight By ID",
     "Book Flight",
+    "Cancel Booking",
     "My Bookings",
     "Quit",
 };
@@ -72,6 +73,32 @@ void customer_book_flight(System *system)
 
             system_booking_add(system, booking);
             printf("Flight Booked \n");
+            return;
+        }
+    }
+    printf("Invalid ID. Please Try Again \n");
+    return;
+}
+void customer_cancel_booking(System *system)
+{
+    helper_prompt("Enter The Booking ID You Want To Cancel");
+    int *booking_id = malloc(sizeof(int));
+    if (helper_get_int(booking_id) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    LinkedList *bookings = malloc(sizeof(LinkedList));
+    ll_init(bookings);
+    system_entity_get_all(system, SYSTEM_BOOKING, bookings);
+    for (Iterator i = iter_create(bookings); !i.finished; iter_next(&i))
+    {
+        Booking *booking = ((Booking *)i.current->data);
+
+        if (*booking_id == booking->entity.id)
+        {
+            system_entity_remove(system, SYSTEM_BOOKING, *booking_id);
+            printf("Booking Cancelled \n");
             return;
         }
     }
@@ -155,7 +182,7 @@ void customer_my_bookings(System *system)
     {
         Booking *booking = ((Booking *)i.current->data);
 
-        if (strcmp(first_name, booking->first_name) == 0 && strcmp(last_name, booking->last_name) == 0)
+        if (strcmp(first_name, booking->first_name) == 0 && strcmp(last_name, booking->last_name) == 0 && !booking->entity.is_deleted)
         {
             system_booking_print_one(booking);
         }
@@ -213,6 +240,9 @@ void customer_run(System *system)
         case Customer_Book_Flight:
             customer_book_flight(system);
             break;
+        case Cancel_Booking:
+            customer_cancel_booking(system);
+            break; 
         case Customer_My_Bookings:
             customer_my_bookings(system);
             break;
