@@ -63,8 +63,24 @@ void admin_remove_flight(System *system)
         printf("Invalid Option. Please Try Again \n");
         return;
     }
+    LinkedList *flights=malloc(sizeof(LinkedList));
+    ll_init(flights);
+    system_entity_get_all(system, SYSTEM_FLIGHT, flights);
+    for (Iterator i = iter_create(flights); !i.finished; iter_next(&i))
+    {
+        Flight *flight = ((Flight *)i.current->data);
+
+        if (flight->entity.id==*flight_id)
+        {
             system_entity_remove(system, SYSTEM_FLIGHT, *flight_id);
             printf("Flight Removed \n");
+        }
+
+    }
+    printf("Error. Flight doesn't exist. Please Try Again \n");
+         return;
+        
+            
 }
 
 int system_flight_compare_price(void* a, void* b){
