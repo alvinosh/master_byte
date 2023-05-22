@@ -6,6 +6,7 @@ static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flight By From Airport",
     "Search Flight By ID",
     "Book Flight",
+    //Delete booking
     "My Bookings",
     "Quit",
 };
