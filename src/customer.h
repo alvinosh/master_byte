@@ -15,6 +15,7 @@ typedef enum
     Customer_Flights_By_From_Airport,
     Customer_Flights_By_ID,
     Customer_Book_Flight,
+    Cancel_Booking,
     Customer_My_Bookings,
     Customer_Quit,
     Customer_Option_Count

@@ -223,7 +223,7 @@ void system_entity_remove(System *system, const char EntityCode, int id)
         fprintf(stderr, "Error opening file.\n");
         exit(1);
     }
-    fprintf(file, "%c,%c,%d,\n", EntityCode, SYSTEM_DELETE, id); // Write the flight to the file
+    fprintf(file, "%c,%c,%d;\n", EntityCode, SYSTEM_DELETE, id); // Write the flight to the file
     fclose(file);                                                // Close the file
 }
 
