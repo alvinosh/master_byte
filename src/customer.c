@@ -26,8 +26,6 @@ void customer_search_flights(System *system)
         }
         printf("\n");
     }
-
-    
 }
 
 void customer_book_flight(System *system)
@@ -173,10 +171,9 @@ void customer_my_bookings(System *system)
     {
         printf("Invalid Option. Please Try Again \n");
         return;
-    } 
-    
+    }
 
-    LinkedList *bookings=malloc(sizeof(LinkedList));
+    LinkedList *bookings = malloc(sizeof(LinkedList));
     ll_init(bookings);
     system_entity_get_all(system, SYSTEM_BOOKING, bookings);
     for (Iterator i = iter_create(bookings); !i.finished; iter_next(&i))
@@ -186,12 +183,25 @@ void customer_my_bookings(System *system)
         if (strcmp(first_name, booking->first_name) == 0 && strcmp(last_name, booking->last_name) == 0 && !booking->entity.is_deleted)
         {
             system_booking_print_one(booking);
+            LinkedList flights;
+            ll_init(&flights);
+            system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+            for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
+            {
+                Flight *flight = ((Flight *)i.current->data);
+
+                if (booking->flight_id == flight->entity.id)
+                {
+                    system_flight_print_one(flight);
+                }
+            }
+            printf("\n");
+
             return;
         }
     }
     printf("No Bookings Found with this name. \n");
-    return; 
-
+    return;
 }
 
 Customer_Option customer_option_get()
@@ -247,7 +257,7 @@ void customer_run(System *system)
             break;
         case Cancel_Booking:
             customer_cancel_booking(system);
-            break; 
+            break;
         case Customer_My_Bookings:
             customer_my_bookings(system);
             break;
