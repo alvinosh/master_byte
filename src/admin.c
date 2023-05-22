@@ -67,6 +67,12 @@ void admin_remove_flight(System *system)
             printf("Flight Removed \n");
 }
 
+int system_flight_compare_price(void* a, void* b){
+    Flight* flight_a = (Flight*)a;
+    Flight* flight_b = (Flight*)b;
+    return strcmp(flight_a->price, flight_b->price);
+}
+
 void admin_print_flights(System *system)
 {
 
@@ -74,6 +80,9 @@ void admin_print_flights(System *system)
     ll_init(&flights);
 
     system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+    // sort by price using ll_sort
+    ll_sort(&flights, system_flight_compare_price);
+
     system_entity_print_all(SYSTEM_FLIGHT, &flights);
     printf("\n");
 }

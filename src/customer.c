@@ -2,6 +2,7 @@
 
 static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
+    // "Search Flights By cheapest. sort flights by price. Input how many cheap flights you want to get form the user.,
     "Search Flight By From Airport",
     "Search Flight By ID",
     "Book Flight",
