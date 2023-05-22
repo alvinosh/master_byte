@@ -173,20 +173,25 @@ void customer_my_bookings(System *system)
     {
         printf("Invalid Option. Please Try Again \n");
         return;
-    }
+    } 
+    
 
-    LinkedList bookings;
-    ll_init(&bookings);
-    system_entity_get_all(system, SYSTEM_BOOKING, &bookings);
-    for (Iterator i = iter_create(&bookings); !i.finished; iter_next(&i))
+    LinkedList *bookings=malloc(sizeof(LinkedList));
+    ll_init(bookings);
+    system_entity_get_all(system, SYSTEM_BOOKING, bookings);
+    for (Iterator i = iter_create(bookings); !i.finished; iter_next(&i))
     {
         Booking *booking = ((Booking *)i.current->data);
 
         if (strcmp(first_name, booking->first_name) == 0 && strcmp(last_name, booking->last_name) == 0 && !booking->entity.is_deleted)
         {
             system_booking_print_one(booking);
+            return;
         }
     }
+    printf("No Bookings Found with this name. \n");
+    return; 
+
 }
 
 Customer_Option customer_option_get()
