@@ -333,5 +333,4 @@ void system_booking_print_one(Booking *booking)
     printf("    Flight ID: %d\n", booking->flight_id);
     printf("    First Name: %s\n", booking->first_name);
     printf("    Last Name: %s\n", booking->last_name);
-    printf("\n");
 }
