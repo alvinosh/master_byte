@@ -137,6 +137,13 @@ void system_entity_get_all(System *system, const char EntityCode, LinkedList *en
     {
 
         char *token = strtok(line, ",");
+
+        if (strlen(token) == 0)
+        {
+            printf("Empty Line\n");
+            continue;
+        }
+
         if (token[0] == EntityCode)
         {
 
@@ -161,7 +168,7 @@ void system_entity_get_all(System *system, const char EntityCode, LinkedList *en
             {
                 token = strtok(NULL, ",");
                 int id = atoi(token);
-                for (Iterator i = iter_create(entities); !i.finished; iter_next(&i))
+                for (Iterator i = iter_create(entities); i.current != NULL; iter_next(&i))
                 {
                     Entity *entity = ((Entity *)i.current->data);
                     if (entity->id == id)
@@ -174,7 +181,7 @@ void system_entity_get_all(System *system, const char EntityCode, LinkedList *en
             {
                 token = strtok(NULL, ",");
                 int id = atoi(token);
-                for (Iterator i = iter_create(entities); !i.finished; iter_next(&i))
+                for (Iterator i = iter_create(entities); i.current != NULL; iter_next(&i))
                 {
                     Entity *entity = ((Entity *)i.current->data);
                     if (entity->id == id)
@@ -191,7 +198,7 @@ void system_entity_get_all(System *system, const char EntityCode, LinkedList *en
 void system_entity_print_all(char EntityCode, LinkedList *entities)
 {
 
-    for (Iterator i = iter_create(entities); !i.finished; iter_next(&i))
+    for (Iterator i = iter_create(entities); i.current != NULL; iter_next(&i))
     {
         Entity *entity = ((Entity *)i.current->data);
         if (entity->is_deleted == false)

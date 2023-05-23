@@ -40,22 +40,13 @@ Iterator iter_create(LinkedList *list)
 {
     Iterator iter = {0};
     iter.current = list->head;
-    iter.finished = false;
     return iter;
 }
 
 void iter_next(Iterator *iter)
 {
-    if (iter->current->next != NULL)
-    {
-        iter->current = iter->current->next;
-    }
-    else
-    {
-        iter->finished = true;
-    }
+    iter->current = iter->current->next;
 }
-
 
 // this function finds the node at the given index and puts it at data and returns 0 if successful, and -1 if not
 int ll_get_at_index(LinkedList *list, void *data, int index)
@@ -66,7 +57,7 @@ int ll_get_at_index(LinkedList *list, void *data, int index)
     }
 
     int i = 0;
-    for (Iterator iter = iter_create(list); !iter.finished; iter_next(&iter))
+    for (Iterator iter = iter_create(list); iter.current != NULL; iter_next(&iter))
     {
         if (i == index)
         {
@@ -77,15 +68,17 @@ int ll_get_at_index(LinkedList *list, void *data, int index)
     }
 
     return -1;
-   
 }
 
-int ll_swap(LinkedList *list, int index_a, int index_b) {
-    if (index_a < 0 || index_b < 0) {
+int ll_swap(LinkedList *list, int index_a, int index_b)
+{
+    if (index_a < 0 || index_b < 0)
+    {
         return -1;
     }
 
-    if (index_a == index_b) {
+    if (index_a == index_b)
+    {
         return 0;
     }
 
@@ -93,7 +86,7 @@ int ll_swap(LinkedList *list, int index_a, int index_b) {
     Node *node_b = NULL;
 
     int i = 0;
-    for (Iterator iter = iter_create(list); !iter.finished; iter_next(&iter))
+    for (Iterator iter = iter_create(list); iter.current != NULL; iter_next(&iter))
     {
         if (i == index_a)
         {
@@ -117,11 +110,13 @@ int ll_swap(LinkedList *list, int index_a, int index_b) {
     return -1;
 }
 
-int ll_sort(LinkedList *list, int (*compare)(void *, void *)) {
+int ll_sort(LinkedList *list, int (*compare)(void *, void *))
+{
     int swapped = 0;
-    do {
+    do
+    {
         swapped = 0;
-        for (Iterator iter = iter_create(list); !iter.finished; iter_next(&iter))
+        for (Iterator iter = iter_create(list); iter.current != NULL; iter_next(&iter))
         {
             if (iter.current->next != NULL && compare(iter.current->data, iter.current->next->data) > 0)
             {
@@ -155,7 +150,7 @@ int ll_sort(LinkedList *list, int (*compare)(void *, void *)) {
 
 //     push_front(&list, &a);
 
-//     for (Iterator i = iter_create(&list); !i.finished; iter_next(&i))
+//     for (Iterator i = iter_create(&list); i.current != NULL; iter_next(&i))
 //     {
 //         Entity *entity = ((Entity *)i.current->data);
 //         printf("NODE: %d %d %s", entity->id, entity->isDeleted, entity->name);

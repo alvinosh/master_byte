@@ -17,7 +17,7 @@ void customer_search_flights(System *system)
     LinkedList flights;
     ll_init(&flights);
     system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
-    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
+    for (Iterator i = iter_create(&flights); i.current != NULL; iter_next(&i))
     {
         Flight *flight = ((Flight *)i.current->data);
         if (flight->entity.is_deleted == false)
@@ -43,7 +43,7 @@ void customer_book_flight(System *system)
     LinkedList flights;
     ll_init(&flights);
     system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
-    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
+    for (Iterator i = iter_create(&flights); i.current != NULL; iter_next(&i))
     {
         Flight *flight = ((Flight *)i.current->data);
 
@@ -89,7 +89,7 @@ void customer_cancel_booking(System *system)
     LinkedList *bookings = malloc(sizeof(LinkedList));
     ll_init(bookings);
     system_entity_get_all(system, SYSTEM_BOOKING, bookings);
-    for (Iterator i = iter_create(bookings); !i.finished; iter_next(&i))
+    for (Iterator i = iter_create(bookings); i.current != NULL; iter_next(&i))
     {
         Booking *booking = ((Booking *)i.current->data);
 
@@ -118,7 +118,7 @@ void customer_get_flight_by_from_airport(System *system)
     LinkedList flights;
     ll_init(&flights);
     system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
-    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
+    for (Iterator i = iter_create(&flights); i.current != NULL; iter_next(&i))
     {
         Flight *flight = ((Flight *)i.current->data);
 
@@ -143,7 +143,7 @@ void customer_flights_by_ID(System *system)
     LinkedList flights;
     ll_init(&flights);
     system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
-    for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
+    for (Iterator i = iter_create(&flights); i.current != NULL; iter_next(&i))
     {
         Flight *flight = ((Flight *)i.current->data);
 
@@ -176,7 +176,7 @@ void customer_my_bookings(System *system)
     LinkedList *bookings = malloc(sizeof(LinkedList));
     ll_init(bookings);
     system_entity_get_all(system, SYSTEM_BOOKING, bookings);
-    for (Iterator i = iter_create(bookings); !i.finished; iter_next(&i))
+    for (Iterator i = iter_create(bookings); i.current != NULL; iter_next(&i))
     {
         Booking *booking = ((Booking *)i.current->data);
 
@@ -186,7 +186,7 @@ void customer_my_bookings(System *system)
             LinkedList flights;
             ll_init(&flights);
             system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
-            for (Iterator i = iter_create(&flights); !i.finished; iter_next(&i))
+            for (Iterator i = iter_create(&flights); i.current != NULL; iter_next(&i))
             {
                 Flight *flight = ((Flight *)i.current->data);
 

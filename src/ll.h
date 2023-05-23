@@ -20,7 +20,6 @@ typedef struct LinkedList
 typedef struct
 {
     Node *current;
-    bool finished;
 } Iterator;
 
 Node *node_create(void *data, Node *next);
