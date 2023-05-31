@@ -14,20 +14,24 @@ void admin_add_flight(System *system)
 {
     Flight *flight = malloc(sizeof(Flight));
 
-    helper_prompt("Enter The From Airport");
+    helper_prompt("Enter The From Airport Code");
     char *from_airport = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(from_airport) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     strcpy(flight->from_airport, from_airport);
 
-    helper_prompt("Enter The To Airport");
+    helper_prompt("Enter The To Airport Code");
     char *to_airport = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(to_airport) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     strcpy(flight->to_airport, to_airport);
@@ -36,7 +40,9 @@ void admin_add_flight(System *system)
     char *Date = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(Date) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     strcpy(flight->date, Date);
@@ -45,13 +51,17 @@ void admin_add_flight(System *system)
     char *price = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(price) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     strcpy(flight->price, price);
 
     system_flight_add(system, flight);
+    helper_fg_color(Green);
     printf("Flight Added \n");
+    helper_fg_color(Reset);
 }
 
 void admin_remove_flight(System *system)
@@ -60,7 +70,9 @@ void admin_remove_flight(System *system)
     int *flight_id = malloc(sizeof(int));
     if (helper_get_int(flight_id) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     LinkedList *flights = malloc(sizeof(LinkedList));
@@ -77,7 +89,9 @@ void admin_remove_flight(System *system)
             return;
         }
     }
+    helper_fg_color(Red);
     printf("Error. Flight doesn't exist. Please Try Again \n");
+    helper_fg_color(Reset);
     return;
 }
 
@@ -103,8 +117,9 @@ void admin_print_flights(System *system)
     system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
     // sort by price using ll_sort
     ll_sort(&flights, system_flight_compare_price);
-
+    helper_fg_color(Cyan);
     system_entity_print_all(SYSTEM_FLIGHT, &flights);
+    helper_fg_color(Reset);
     printf("\n");
 }
 
@@ -120,18 +135,24 @@ void admin_add_airport(System *system)
     helper_prompt("Enter Airport Name");
     if (helper_get_string(name) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     helper_prompt("Enter Airport Code");
     if (helper_get_string(code) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     if (strlen(code) != 3)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Code must be 3 letters. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     LinkedList *airports;
@@ -143,20 +164,26 @@ void admin_add_airport(System *system)
 
         if (strcmp(code, airPort->code) == 0)
         {
+            helper_fg_color(Red);
             printf("Error. Code must be unique. Airport already exists. Please Try Again \n");
+            helper_fg_color(Reset);
             return;
         }
     }
     helper_prompt("Enter Airport Country");
     if (helper_get_string(country) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     helper_prompt("Enter Airport City");
     if (helper_get_string(city) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     strcpy(airport->name, name);
@@ -164,7 +191,9 @@ void admin_add_airport(System *system)
     strcpy(airport->country, country);
     strcpy(airport->city, city);
     system_airport_add(system, airport);
+    helper_fg_color(Green);
     printf("Airport Added \n");
+    helper_fg_color(Reset);
 }
 
 void admin_remove_airport(System *system)
@@ -173,7 +202,9 @@ void admin_remove_airport(System *system)
     int *airport_id = malloc(sizeof(int));
     if (helper_get_int(airport_id) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     LinkedList *airports = malloc(sizeof(LinkedList));
@@ -186,11 +217,15 @@ void admin_remove_airport(System *system)
         if (*airport_id == airport->entity.id)
         {
             system_entity_remove(system, SYSTEM_AIRPORT, *airport_id);
+            helper_fg_color(Green);
             printf("Airport Removed \n");
+            helper_fg_color(Reset);
             return;
         }
     }
+    helper_fg_color(Red);
     printf("Invalid ID. Please try again \n");
+    helper_fg_color(Reset);
     return;
 }
 
@@ -210,7 +245,9 @@ Admin_Option admin_option_get()
 
     if (helper_get_int(c) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return admin_option_get();
     }
 
@@ -220,7 +257,9 @@ Admin_Option admin_option_get()
     }
     else
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return admin_option_get();
     }
 }
@@ -231,7 +270,9 @@ void admin_option_help()
     printf("Please Enter Your Option. \n");
     for (int i = 0; i < Admin_Option_Count; i++)
     {
+        helper_fg_color(Yellow);
         printf("    %d. %s \n", i + 1, admin_option_desc[i]);
+        helper_fg_color(Reset);
     }
     printf("\n");
 }
@@ -243,18 +284,24 @@ void admin_authenticate()
 
     if (helper_get_string(line) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Password. Please Try Again \n");
+        helper_fg_color(Reset);
         admin_authenticate();
     }
     else
     {
         if (strcmp(line, "admin") == 0)
         {
+            helper_fg_color(Blue);
             printf("Welcome Admin \n");
+            helper_fg_color(Reset);
         }
         else
         {
+            helper_fg_color(Red);
             printf("Invalid Password. Please Try Again \n");
+            helper_fg_color(Reset);
             admin_authenticate();
         }
     }
