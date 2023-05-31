@@ -1,4 +1,5 @@
 #include "user.h"
+#include "helper.h"
 
 User_Type user_type_get()
 {
@@ -22,8 +23,17 @@ User_Type user_type_get()
 
 void user_greet()
 {
-    printf("Welcome To The Master Byte Flight Rservations System. \n");
-    printf("Please Enter Your User Type. \n");
-    printf("    1. Administrator \n");
-    printf("    2. Customer \n");
+    helper_bg_color(Blue);
+    helper_fg_color(White);
+    printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
+    printf("*                                                             *\n");
+    printf("*     Welcome To The BLACK HATS Flight Rservations System.    *\n");
+    printf("*     Please Enter Your User Type.                            *\n");
+    printf("*         1. Administrator                                    *\n");
+    printf("*         2. Customer                                         *\n");
+    printf("*                                                             *\n");
+    printf("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+    helper_bg_color(Reset);
+    helper_fg_color(Reset);
+    printf("\n");
 }

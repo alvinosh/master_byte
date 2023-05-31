@@ -22,7 +22,9 @@ void customer_search_flights(System *system)
         Flight *flight = ((Flight *)i.current->data);
         if (flight->entity.is_deleted == false)
         {
+            helper_fg_color(Cyan);
             system_flight_print_one(flight);
+            helper_fg_color(Reset);
         }
         printf("\n");
     }
@@ -51,7 +53,9 @@ void Customer_search_flights_by_cheapest(System *system)
     int *cheap_flights = malloc(sizeof(int));
     if (helper_get_int(cheap_flights) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     int cnt = 0;
@@ -65,7 +69,9 @@ void Customer_search_flights_by_cheapest(System *system)
         Flight *flight = ((Flight *)i.current->data);
         if (flight->entity.is_deleted == false)
         {
+            helper_fg_color(Cyan);
             system_flight_print_one(flight);
+            helper_fg_color(Reset);
         }
         printf("\n");
         cnt++;
@@ -80,7 +86,9 @@ void customer_book_flight(System *system)
     int *flight_id = malloc(sizeof(int));
     if (helper_get_int(flight_id) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
 
@@ -99,7 +107,9 @@ void customer_book_flight(System *system)
             char *first_name = malloc(sizeof(char) * BUFSIZ);
             if (helper_get_string(first_name) != 0)
             {
+                helper_fg_color(Red);
                 printf("Invalid Option. Please Try Again \n");
+                helper_fg_color(Reset);
                 return;
             }
             strcpy(booking->first_name, first_name);
@@ -108,17 +118,23 @@ void customer_book_flight(System *system)
             char *last_name = malloc(sizeof(char) * BUFSIZ);
             if (helper_get_string(last_name) != 0)
             {
+                helper_fg_color(Red);
                 printf("Invalid Option. Please Try Again \n");
+                helper_fg_color(Reset);
                 return;
             }
             strcpy(booking->last_name, last_name);
 
             system_booking_add(system, booking);
+            helper_fg_color(Green);
             printf("Flight Booked \n");
+            helper_fg_color(Reset);
             return;
         }
     }
+    helper_fg_color(Red);
     printf("Invalid ID. Please Try Again \n");
+    helper_fg_color(Reset);
     return;
 }
 void customer_cancel_booking(System *system)
@@ -127,7 +143,9 @@ void customer_cancel_booking(System *system)
     int *booking_id = malloc(sizeof(int));
     if (helper_get_int(booking_id) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
     LinkedList *bookings = malloc(sizeof(LinkedList));
@@ -140,11 +158,15 @@ void customer_cancel_booking(System *system)
         if (*booking_id == booking->entity.id)
         {
             system_entity_remove(system, SYSTEM_BOOKING, *booking_id);
+            helper_fg_color(Green);
             printf("Booking Cancelled \n");
+            helper_fg_color(Reset);
             return;
         }
     }
+    helper_fg_color(Red);
     printf("Invalid ID. Please Try Again \n");
+    helper_fg_color(Reset);
     return;
 }
 
@@ -155,7 +177,9 @@ void customer_get_flight_by_from_airport(System *system)
     char *from_air = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(from_air) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
 
@@ -168,8 +192,9 @@ void customer_get_flight_by_from_airport(System *system)
 
         if (strcmp(from_air, flight->from_airport) == 0)
         {
-            // printf("%s ", flights[i].price);
+            helper_fg_color(Cyan);
             system_flight_print_one(flight);
+            helper_fg_color(Reset);
         }
     }
 }
@@ -180,7 +205,9 @@ void customer_flights_by_ID(System *system)
     int *flight_id = malloc(sizeof(int));
     if (helper_get_int(flight_id) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
 
@@ -193,7 +220,9 @@ void customer_flights_by_ID(System *system)
 
         if (*flight_id == flight->entity.id)
         {
+            helper_fg_color(Cyan);
             system_flight_print_one(flight);
+            helper_fg_color(Reset);
         }
     }
     printf("\n");
@@ -205,7 +234,9 @@ void customer_my_bookings(System *system)
     char *first_name = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(first_name) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
 
@@ -213,7 +244,9 @@ void customer_my_bookings(System *system)
     char *last_name = malloc(sizeof(char) * BUFSIZ);
     if (helper_get_string(last_name) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return;
     }
 
@@ -244,7 +277,9 @@ void customer_my_bookings(System *system)
             return;
         }
     }
+    helper_fg_color(Red);
     printf("No Bookings Found with this name. \n");
+    helper_fg_color(Reset);
     return;
 }
 
@@ -254,7 +289,9 @@ Customer_Option customer_option_get()
     int *c = malloc(sizeof(int));
     if (helper_get_int(c) != 0)
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return customer_option_get();
     }
 
@@ -264,7 +301,9 @@ Customer_Option customer_option_get()
     }
     else
     {
+        helper_fg_color(Red);
         printf("Invalid Option. Please Try Again \n");
+        helper_fg_color(Reset);
         return customer_option_get();
     }
 }
@@ -274,7 +313,9 @@ void customer_option_help()
     printf("Please Enter Your Option. \n");
     for (int i = 0; i < Customer_Option_Count; i++)
     {
+        helper_fg_color(Yellow);
         printf("    %d. %s \n", i + 1, customer_option_desc[i]);
+        helper_fg_color(Reset);
     }
 }
 
