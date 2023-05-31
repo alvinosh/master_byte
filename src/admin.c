@@ -74,6 +74,7 @@ void admin_remove_flight(System *system)
         {
             system_entity_remove(system, SYSTEM_FLIGHT, *flight_id);
             printf("Flight Removed \n");
+            return;
         }
     }
     printf("Error. Flight doesn't exist. Please Try Again \n");
