@@ -2,7 +2,7 @@
 
 static const char *const customer_option_desc[Customer_Option_Count] = {
     "Search Flights",
-    // "Search Flights By cheapest. sort flights by price. Input how many cheap flights you want to get form the user.,
+    "Search Flights By cheapest",
     "Search Flight By From Airport",
     "Search Flight By ID",
     "Book Flight",
@@ -25,6 +25,50 @@ void customer_search_flights(System *system)
             system_flight_print_one(flight);
         }
         printf("\n");
+    }
+}
+int system_Flight_Compare_price(void *a, void *b)
+{
+    Flight *flight_a = (Flight *)a;
+    Flight *flight_b = (Flight *)b;
+
+    // convert the flight prices to int and compare them
+
+    int price_a = atoi(flight_a->price);
+    int price_b = atoi(flight_b->price);
+
+    return price_a - price_b;
+}
+
+void Customer_search_flights_by_cheapest(System *system)
+{
+    LinkedList flights;
+    ll_init(&flights);
+    system_entity_get_all(system, SYSTEM_FLIGHT, &flights);
+    ll_sort(&flights, system_Flight_Compare_price);
+
+    helper_prompt("Enter How Many Cheap Flights You Want To Get");
+    int *cheap_flights = malloc(sizeof(int));
+    if (helper_get_int(cheap_flights) != 0)
+    {
+        printf("Invalid Option. Please Try Again \n");
+        return;
+    }
+    int cnt = 0;
+
+    for (Iterator i = iter_create(&flights); i.current != NULL; iter_next(&i))
+    {
+        if (cnt == *cheap_flights)
+        {
+            break;
+        }
+        Flight *flight = ((Flight *)i.current->data);
+        if (flight->entity.is_deleted == false)
+        {
+            system_flight_print_one(flight);
+        }
+        printf("\n");
+        cnt++;
     }
 }
 
@@ -245,6 +289,9 @@ void customer_run(System *system)
         {
         case Customer_Search_Flights:
             customer_search_flights(system);
+            break;
+        case Customer_Search_Flights_By_Cheapest:
+            Customer_search_flights_by_cheapest(system);
             break;
         case Customer_Flights_By_From_Airport:
             customer_get_flight_by_from_airport(system);
