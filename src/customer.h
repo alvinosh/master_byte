@@ -12,6 +12,7 @@
 typedef enum
 {
     Customer_Search_Flights = 0,
+    Customer_Search_Flights_By_Cheapest,
     Customer_Flights_By_From_Airport,
     Customer_Flights_By_ID,
     Customer_Book_Flight,

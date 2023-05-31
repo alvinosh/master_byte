@@ -76,7 +76,7 @@ void admin_remove_flight(System *system)
             printf("Flight Removed \n");
         }
     }
-    // printf("Error. Flight doesn't exist. Please Try Again \n");
+    printf("Error. Flight doesn't exist. Please Try Again \n");
     return;
 }
 
