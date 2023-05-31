@@ -85,7 +85,13 @@ int system_flight_compare_price(void *a, void *b)
 {
     Flight *flight_a = (Flight *)a;
     Flight *flight_b = (Flight *)b;
-    return strcmp(flight_a->price, flight_b->price);
+
+    // convert the flight prices to int and compare them
+
+    int price_a = atoi(flight_a->price);
+    int price_b = atoi(flight_b->price);
+
+    return price_a - price_b;
 }
 
 void admin_print_flights(System *system)
