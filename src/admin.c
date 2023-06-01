@@ -23,6 +23,29 @@ void admin_add_flight(System *system)
         helper_fg_color(Reset);
         return;
     }
+
+    LinkedList *airports = malloc(sizeof(LinkedList));
+    ll_init(airports);
+    system_entity_get_all(system, SYSTEM_AIRPORT, airports);
+
+    bool found = false;
+    for (Iterator i = iter_create(airports); i.current != NULL; iter_next(&i))
+    {
+        Airport *airport = ((Airport *)i.current->data);
+        if (strcmp(airport->code, from_airport) == 0)
+        {
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        helper_fg_color(Red);
+        printf("Airport Not Found. Please Try Again \n");
+        helper_fg_color(Reset);
+        return;
+    }
+
     strcpy(flight->from_airport, from_airport);
 
     helper_prompt("Enter The To Airport Code");
@@ -34,6 +57,25 @@ void admin_add_flight(System *system)
         helper_fg_color(Reset);
         return;
     }
+
+    found = false;
+    for (Iterator i = iter_create(airports); i.current != NULL; iter_next(&i))
+    {
+        Airport *airport = ((Airport *)i.current->data);
+        if (strcmp(airport->code, to_airport) == 0)
+        {
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        helper_fg_color(Red);
+        printf("Airport Not Found. Please Try Again \n");
+        helper_fg_color(Reset);
+        return;
+    }
+
     strcpy(flight->to_airport, to_airport);
 
     helper_prompt("Enter The Departure Date");

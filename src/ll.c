@@ -118,6 +118,7 @@ int ll_sort(LinkedList *list, int (*compare)(void *, void *))
         swapped = 0;
         for (Iterator iter = iter_create(list); iter.current != NULL; iter_next(&iter))
         {
+
             if (iter.current->next != NULL && compare(iter.current->data, iter.current->next->data) > 0)
             {
                 void *temp = iter.current->data;

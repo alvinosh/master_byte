@@ -72,9 +72,9 @@ void Customer_search_flights_by_cheapest(System *system)
             helper_fg_color(Cyan);
             system_flight_print_one(flight);
             helper_fg_color(Reset);
+            cnt++;
         }
         printf("\n");
-        cnt++;
     }
 }
 
