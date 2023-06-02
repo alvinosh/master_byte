@@ -12,26 +12,13 @@
 
 static const char *const DB_NAME = "./db.txt";
 
-void add_dummy_flight(System *system)
-{
-    Flight flight = {0};
-    strcpy(flight.date, "12/32/23");
-    strcpy(flight.from_airport, "LHR");
-    strcpy(flight.to_airport, "LAX");
-    strcpy(flight.price, "10300");
-    system_flight_add(system, &flight);
-}
-
 int main(void)
 {
 
     System system = {0};
     system_init(&system, (char *)DB_NAME);
 
-    // for testing purposes
-    add_dummy_flight(&system);
     user_greet();
-    
 
     User_Type user_type = user_type_get();
 
