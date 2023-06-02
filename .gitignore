@@ -1,8 +1,6 @@
 .vscode/**
-*.txt
 **.exe
 **.stackdump
-*.txt
 **.o
 build/
 .DS_Store
